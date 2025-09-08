@@ -1,0 +1,601 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}About Us{% endblock %}
+{% block content %}
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+            overflow-x: hidden;
+        }
+
+       
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #000000 0%, #000000 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: #ffffff;
+            letter-spacing: -2px;
+            animation: fadeInUp 1s ease 0.2s both;
+             font-family: "Vidaloka";
+        }
+
+
+
+        /* .hero .subtitle {
+            font-size: 1.2rem;
+            color: #b4b4b4;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease 0.4s both;
+        } */
+
+     .hero .subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    background: linear-gradient(
+        90deg,
+        #b8860b 0%,     /* Dark Goldenrod */
+        #ffd700 50%,    /* Gold */
+        #b8860b 100%
+    );
+    background-size: 200% auto;
+    background-clip: text;          /* Standard property */
+    -webkit-background-clip: text;  /* WebKit for Safari, Chrome */
+    -webkit-text-fill-color: transparent; /* Makes text color transparent to reveal background */
+    animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+    0% {
+        background-position: 200% center;
+    }
+    100% {
+        background-position: -200% center;
+    }
+}
+
+
+        /* About Section */
+        .about-section {
+            padding: 120px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 80px;
+            align-items: start;
+            margin-bottom: 120px;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 300;
+            color: #333;
+            letter-spacing: -1px;
+            position: sticky;
+            top: 120px;
+        }
+
+        .content-area {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .content-area p {
+            margin-bottom: 24px;
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 80px 0;
+        }
+
+        .gallery-item {
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            border-radius: 8px;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: #000000;
+            padding: 80px 5%;
+            margin: 120px 0;
+        }
+
+        .stats-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 60px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 300;
+            color: #ffdb0c;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #a7a7a7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 120px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 30px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .member-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+        }
+
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .member-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .member-role {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .member-bio {
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: #000000;
+            color: #fff;
+            padding: 60px 5% 30px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer p {
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            
+            .section-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .section-title {
+                position: static;
+                font-size: 2.5rem;
+                margin-bottom: 30px;
+            }
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* LET'S DESIGN SECTION STYLES */
+        .lets-design-section {
+          width: 100vw;
+          background: #fcfaf7;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 120px 0 120px 0;
+          overflow: hidden;
+          position: relative;
+        }
+        .lets-design-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          max-width: 1600px;
+          margin: 0 auto;
+          width: 100%;
+          position: relative;
+        }
+        .lets-design-gallery {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+        }
+        .lets-design-gallery.left img,
+        .lets-design-gallery.right img {
+          width: 180px;
+          height: 160px;
+          object-fit: cover;
+          border-radius: 10px;
+          box-shadow: 0 6px 32px rgba(60,40,5,0.08);
+          transition: transform .4s cubic-bezier(.77,0,.18,1);
+        }
+        .lets-design-gallery.left img:nth-child(1) { transform: rotate(-7deg) translate(7px,0);}
+        .lets-design-gallery.left img:nth-child(2) { transform: rotate(-17deg) translate(-24px,0);}
+        .lets-design-gallery.left img:nth-child(3) { transform: rotate(-5deg) translate(14px,-6px);}
+        .lets-design-gallery.left img:nth-child(4) { transform: rotate(-12deg) translate(-12px,8px);}
+        .lets-design-gallery.left img:nth-child(5) { transform: rotate(-17deg) translate(8px,-18px);}
+        .lets-design-gallery.right img:nth-child(1) { transform: rotate(7deg) translate(-7px,0);}
+        .lets-design-gallery.right img:nth-child(2) { transform: rotate(17deg) translate(24px,0);}
+        .lets-design-gallery.right img:nth-child(3) { transform: rotate(5deg) translate(-14px,-6px);}
+        .lets-design-gallery.right img:nth-child(4) { transform: rotate(12deg) translate(12px,8px);}
+        .lets-design-gallery.right img:nth-child(5) { transform: rotate(17deg) translate(-8px,-18px);}
+        .lets-design-center {
+          min-width: 320px;
+          max-width: 420px;
+          text-align: center;
+          margin: 0 3vw;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          z-index: 2;
+        }
+        .lets-design-subtitle {
+          font-size: 1.05rem;
+          color: #686868;
+          letter-spacing: 1.4px;
+          margin-bottom: 14px;
+        }
+        .lets-design-title {
+          font-family: 'Oswald', 'Inter', 'Arial Narrow', Arial, sans-serif;
+          font-size: 3.4rem;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          color: #181818;
+          margin-bottom: 10px;
+          text-transform: uppercase;
+          line-height: 1.05;
+        }
+        .lets-design-desc {
+          font-size: 1.06rem;
+          color: #939393;
+          letter-spacing: 1.2px;
+          margin-bottom: 32px;
+          text-transform: uppercase;
+        }
+        .lets-design-btn {
+          display: inline-block;
+          background: #ffdb0c;
+          color: #000000ff;
+          font-weight: 600;
+          letter-spacing: 1.4px;
+          padding: 17px 42px;
+          border-radius: 30px;
+          font-size: 1.08rem;
+          text-decoration: none;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+          transition: background .18s cubic-bezier(.45,.03,.52,.96), transform .22s cubic-bezier(.77,0,.18,1);
+        }
+        .lets-design-btn:hover { background: #000000ff; transform: scale(1.04); }
+        @media (max-width: 1200px) {
+          .lets-design-center { margin: 0 1vw;}
+          .lets-design-gallery.left img, .lets-design-gallery.right img { width: 125px; height: 100px; }
+        }
+        @media (max-width: 900px) {
+          .lets-design-wrapper { flex-direction: column; gap: 32px;}
+          .lets-design-gallery { flex-direction: row!important; gap: 15px; }
+          .lets-design-gallery img { width: 85px; height: 70px; }
+          .lets-design-center { margin: 0; padding: 20px 0; }
+        }
+        @media (max-width: 600px) {
+          .lets-design-title { font-size: 2rem; }
+          .lets-design-section { padding: 72px 0 60px; }
+          .lets-design-gallery img { width: 57px; height: 49px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+   
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>ABOUT NEXTTTONE</h1>
+            <p class="subtitle">A GLOBAL MODELING AGENCY </p>
+        </div>
+    </section>
+
+
+
+    
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="section-grid">
+    <h2 class="section-title">Our Story</h2>
+    <div class="content-area">
+        <p>Welcome to the Future of Fashion with <strong>Nexttt One — Redefining Modeling & Creativity</strong>.</p>
+        
+        <p>At Next One Talent Management, we believe talent is more than just skill, it’s a story waiting to be told. We exist to discover, represent, and elevate the next generation of artists, creators, and performers, connecting them with the right platforms and audiences.</p>
+        
+        <p>From spotting raw potential to building global careers, we’re there at every step. Our approach blends personal attention with industry expertise, ensuring every move is strategic and every opportunity counts. Whether it’s securing brand collaborations, booking gigs, or crafting a long-term growth plan, we make sure our talent is seen, heard, and remembered.</p>
+        
+        <p>We’re not here to chase trends we’re here to build legacies. For us, it’s never just about the next project; it’s about the next chapter in your success story. Because at Next One, your big break isn’t the end , it’s just the beginning.</p>
+    </div>
+</div>
+
+
+        <!-- Image Gallery -->
+        <div class="image-gallery">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500&h=375&fit=crop" alt="Modern Architecture">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=500&h=375&fit=crop" alt="Interior Design">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=500&h=375&fit=crop" alt="Architectural Details">
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number">150+</span>
+                <span class="stat-label">Projects Completed</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">25+</span>
+                <span class="stat-label">Awards Won</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">10+</span>
+                <span class="stat-label">Years Experience</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Client Satisfaction</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    {% comment %} <section class="team-section">
+        <div class="section-grid">
+            <h2 class="section-title">Our Team</h2>
+            <div class="content-area">
+                <p>Our multidisciplinary team brings together architects, designers, and engineers who share a passion for creating exceptional spaces. Each member contributes unique expertise and perspective to our collaborative design process.</p>
+            </div>
+        </div>
+
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="member-photo">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop" alt="Team Member">
+                </div>
+                <h3 class="member-name">Sarah Johnson</h3>
+                <p class="member-role">Principal Architect</p>
+                <p class="member-bio">Leading our design vision with over 15 years of experience in sustainable architecture.</p>
+            </div>
+
+            <div class="team-member">
+                <div class="member-photo">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop" alt="Team Member">
+                </div>
+                <h3 class="member-name">Michael Chen</h3>
+                <p class="member-role">Senior Designer</p>
+                <p class="member-bio">Specializing in innovative material applications and computational design methods.</p>
+            </div>
+
+            <div class="team-member">
+                <div class="member-photo">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop" alt="Team Member">
+                </div>
+                <h3 class="member-name">Emily Rodriguez</h3>
+                <p class="member-role">Project Manager</p>
+                <p class="member-bio">Ensuring seamless project delivery while maintaining our high standards of quality.</p>
+            </div>
+        </div>
+    </section> {% endcomment %}
+
+
+   <section class="lets-design-section">
+  <div class="lets-design-wrapper">
+    <div class="lets-design-gallery left">
+      <img src="{% static 'images/about1.jpeg' %}"alt="Fashion Model Runway">
+      <img  src="{% static 'images/about7.jpg' %}"alt="Fashion Model Close-up">
+      <img src="{% static 'images/about3.jpeg' %}" alt="Fashion Portrait">
+      <img src="{% static 'images/about4.jpeg' %}" alt="Fashion Model Walking">
+      <img src="{% static 'images/about5.jpeg' %}"alt="Fashion Look">
+    </div>
+    <div class="lets-design-center">
+      <div class="lets-design-subtitle">Nexttt One — Redefining Modeling & Creativity</div>
+      <div class="lets-design-title">Welcome to the Future of Fashion</div>
+      <div class="lets-design-desc">BRING YOUR VISION TO LIFE</div>
+      <a href="{% url 'contact'%}" class="lets-design-btn">GET IN TOUCH</a>
+         
+    </div>
+    <div class="lets-design-gallery right">
+      <img  src="{% static 'images/about6.jpg' %}" alt="Fashion Model Runway">
+      <img  src="{% static 'images/about2.jpeg' %}"alt="Fashion Model Close-up">
+      <img  src="{% static 'images/about8.jpg' %}" alt="Fashion Portrait">
+      <img  src="{% static 'images/about9.jpg' %}"alt="Fashion Editorial">
+      <img  src="{% static 'images/about10.jpg' %}"alt="Fashion Shoot">
+    </div>
+  </div>
+</section>
+
+
+  
+
+    <script>
+      
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.gallery-item, .team-member, .stat-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Counter animation for stats
+        function animateCounter(element, target) {
+            let count = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                count += increment;
+                if (count >= target) {
+                    count = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(count) + (element.textContent.includes('+') ? '+' : '') + (element.textContent.includes('%') ? '%' : '');
+            }, 20);
+        }
+
+        // Trigger counter animation when stats come into view
+        const statsObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const number = entry.target.querySelector('.stat-number');
+                    const target = parseInt(number.textContent);
+                    animateCounter(number, target);
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        document.querySelectorAll('.stat-item').forEach(stat => {
+            statsObserver.observe(stat);
+        });
+    </script>
+
+{% endblock content %}

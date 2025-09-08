@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+{% block content %}
+{% block title %}Blogs{% endblock %}
+
+<!-- Main Container -->
+<div style="background:#000; min-height:100vh; padding:0; overflow-x:hidden;">
+
+  <!-- Hero Section -->
+  <section style="background:linear-gradient(135deg, #000 0%, #1a1a1a 100%); padding:120px 20px 80px; text-align:center; position:relative;">
+    
+    <!-- Geometric Background Elements -->
+    <div class="geo-circle" style="position:absolute; top:10%; right:10%; width:200px; height:200px; border:2px solid rgba(255,255,255,0.1); border-radius:50%; transform:rotate(45deg); pointer-events:none;"></div>
+    <div class="geo-square" style="position:absolute; bottom:20%; left:5%; width:100px; height:100px; background:rgba(255,255,255,0.05); transform:rotate(30deg); pointer-events:none;"></div>
+    <div class="geo-triangle" style="position:absolute; top:30%; left:15%; width:0; height:0; border-left:30px solid transparent; border-right:30px solid transparent; border-bottom:50px solid rgba(255,255,255,0.03); transform:rotate(15deg); pointer-events:none;"></div>
+    
+    <div style="max-width:1000px; margin:auto; position:relative; z-index:2;">
+      <span style="display:inline-block; color:rgba(255,255,255,0.6); font:600 0.9rem 'Inter',sans-serif; letter-spacing:3px; text-transform:uppercase; margin-bottom:20px; border:1px solid rgba(255,255,255,0.3); padding:8px 24px; border-radius:30px;">
+        Our Stories
+      </span>
+      
+      <h1 style="color:#fff; font:700 4.5rem/1.1 'Playfair Display',serif; margin:0 0 30px; text-shadow:0 4px 20px rgba(0,0,0,0.5);">
+        Our <span style="background:linear-gradient(90deg,#fff,#ccc); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Blogs</span>
+      </h1>
+      
+      <p style="color:rgba(255,255,255,0.8); font:400 1.2rem/1.6 'Inter',sans-serif; max-width:600px; margin:0 auto 40px;">
+        Discover thought-provoking articles, creative processes, and professional insights from our community of innovators
+      </p>
+      
+      <!-- Working Search Bar -->
+      <form method="GET" style="max-width:400px; margin:auto; position:relative;">
+        <input type="text" name="search" value="{{ request.GET.search }}" placeholder="Search articles..." style="width:100%; padding:16px 50px 16px 20px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; background:rgba(255,255,255,0.1); color:#fff; font:400 1rem 'Inter',sans-serif; backdrop-filter:blur(10px); box-sizing:border-box;">
+        <button type="submit" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); width:30px; height:30px; background:rgba(255,255,255,0.2); border:none; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+          <svg width="16" height="16" fill="currentColor" style="color:rgba(0, 0, 0, 0.8);" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Blog Grid Section -->
+  <section style="background:#fff; padding:100px 20px; position:relative;">
+    
+    <!-- Section Header -->
+    <div style="max-width:1200px; margin:auto; text-align:center; margin-bottom:80px;">
+      <span style="display:inline-block; color:#666; font:600 0.8rem 'Inter',sans-serif; letter-spacing:2px; text-transform:uppercase; margin-bottom:15px; background:#f8f8f8; padding:6px 20px; border-radius:20px;">
+        {% if request.GET.search %}Search Results{% else %}Latest Articles{% endif %}
+      </span>
+      <h2 style="color:#1a1a1a; font:700 2.5rem/1.2 'Playfair Display',serif; margin:0;">
+        {% if request.GET.search %}"{{ request.GET.search }}"{% else %}Featured Stories{% endif %}
+      </h2>
+    </div>
+
+    <!-- Blog Cards Grid -->
+    <div style="max-width:1200px; margin:auto;">
+      <div class="blog-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(350px, 1fr)); gap:40px;">
+        
+        {% for blog in blogs %}
+        <article class="blog-card" style="background:#fff; border-radius:20px; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,0.08); transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border:1px solid #f0f0f0;" 
+                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 60px rgba(0,0,0,0.15)'; this.style.borderColor='#e0e0e0'" 
+                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 40px rgba(0,0,0,0.08)'; this.style.borderColor='#f0f0f0'">
+          
+          <!-- Image Container -->
+          {% if blog.image %}
+          <div style="position:relative; overflow:hidden; height:350px; background:linear-gradient(135deg,#f8f8f8,#e8e8e8);">
+            <img src="{{ blog.image.url }}" 
+                 style="width:100%; height:100%; object-fit:cover; transition:all 0.4s ease; filter:grayscale(20%);" 
+                 alt="{{ blog.title }}">
+            
+            <!-- Date Badge -->
+            <div style="position:absolute; top:15px; left:15px; background:rgba(0,0,0,0.8); color:#fff; padding:6px 12px; border-radius:15px; font:600 0.75rem 'Inter',sans-serif; backdrop-filter:blur(10px);">
+              {{ blog.created_on|date:"M j" }}
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- Content Container -->
+          <div class="card-content" style="padding:25px 20px;">
+            
+            <!-- Title -->
+            <h3 style="margin:0 0 15px;">
+              <a href="{% url 'blog_detail' slug=blog.slug %}" 
+                 style="color:#1a1a1a; text-decoration:none; font:700 1.3rem/1.3 'Playfair Display',serif; display:block; transition:color 0.3s ease;"
+                 onmouseover="this.style.color='#333'"
+                 onmouseout="this.style.color='#1a1a1a'">
+                {{ blog.title }}
+              </a>
+            </h3>
+            
+            <!-- Meta Info -->
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px; font:400 0.8rem 'Inter',sans-serif; color:#888; flex-wrap:wrap;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <div style="width:24px; height:24px; background:linear-gradient(135deg,#333,#666); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font:600 0.7rem 'Inter',sans-serif;">
+                  {{ blog.author.username|first|upper }}
+                </div>
+                <span style="font-weight:600; color:#555; font-size:0.85rem;">{{ blog.author.username }}</span>
+              </div>
+              <span style="color:#ddd;">•</span>
+              <span style="font-size:0.8rem;">{{ blog.views }} reads</span>
+            </div>
+            
+            <!-- Excerpt -->
+            <p style="color:#666; font:400 0.95rem/1.5 'Inter',sans-serif; margin:0 0 20px;">
+              {{ blog.summary|truncatechars:100 }}
+            </p>
+            
+            <!-- Read More Button -->
+            <a href="{% url 'blog_detail' slug=blog.slug %}" 
+               style="display:inline-flex; align-items:center; gap:6px; background:#000; color:#fff; padding:12px 24px; border-radius:25px; text-decoration:none; font:600 0.85rem 'Inter',sans-serif; transition:all 0.3s ease; box-shadow:0 4px 15px rgba(0,0,0,0.2);"
+               onmouseover="this.style.background='#333'; this.style.transform='translateX(2px)'"
+               onmouseout="this.style.background='#000'; this.style.transform='translateX(0)'">
+              Read More
+              <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+              </svg>
+            </a>
+          </div>
+        </article>
+        {% empty %}
+        
+        <!-- Empty State -->
+        <div style="grid-column:1/-1; text-align:center; padding:60px 20px; background:linear-gradient(135deg,#f8f8f8,#f0f0f0); border-radius:20px; border:2px dashed #ddd;">
+          <div style="max-width:400px; margin:auto;">
+            <div style="width:60px; height:60px; background:linear-gradient(135deg,#e0e0e0,#d0d0d0); border-radius:50%; margin:0 auto 15px; display:flex; align-items:center; justify-content:center;">
+              <svg width="24" height="24" fill="currentColor" style="color:#999;" viewBox="0 0 16 16">
+                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+              </svg>
+            </div>
+            <h3 style="color:#666; font:600 1.1rem 'Inter',sans-serif; margin:0 0 8px;">
+              {% if request.GET.search %}No Results Found{% else %}No Articles Yet{% endif %}
+            </h3>
+            <p style="color:#999; font:400 0.85rem 'Inter',sans-serif; margin:0;">
+              {% if request.GET.search %}Try different keywords or browse all articles{% else %}Stay tuned for amazing stories coming soon!{% endif %}
+            </p>
+          </div>
+        </div>
+        {% endfor %}
+        
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Responsive Styles -->
+<style>
+/* Geometric Elements Animation */
+.geo-circle {
+  animation: float 6s ease-in-out infinite;
+}
+
+.geo-square {
+  animation: rotate 8s linear infinite;
+}
+
+.geo-triangle {
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: rotate(45deg) translateY(0px); }
+  50% { transform: rotate(45deg) translateY(-20px); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(30deg); }
+  to { transform: rotate(390deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; transform: rotate(15deg) scale(1); }
+  50% { opacity: 0.6; transform: rotate(15deg) scale(1.1); }
+}
+
+/* Mobile Optimizations */
+@media(max-width:768px){
+  h1{ font-size:2.8rem !important; line-height:1.2 !important; }
+  section{ padding:60px 16px !important; }
+  
+  .blog-grid{ 
+    grid-template-columns:1fr !important; 
+    gap:25px !important; 
+  }
+  
+  .blog-card{
+    border-radius:16px !important;
+    box-shadow:0 4px 20px rgba(0,0,0,0.06) !important;
+  }
+  
+  .blog-card:hover{
+    transform:translateY(-4px) !important;
+    box-shadow:0 8px 30px rgba(0,0,0,0.12) !important;
+  }
+  
+  .card-content{ 
+    padding:20px 16px !important; 
+  }
+  
+  .blog-card h3 a{
+    font-size:1.15rem !important;
+    line-height:1.4 !important;
+  }
+  
+  /* Hero section adjustments */
+  form{ max-width:100% !important; }
+  form input{ padding:14px 45px 14px 16px !important; }
+  form button{ right:10px !important; }
+  
+  /* Adjust geometric elements for mobile */
+  .geo-circle{ width:120px !important; height:120px !important; top:5% !important; right:5% !important; }
+  .geo-square{ width:60px !important; height:60px !important; bottom:15% !important; left:3% !important; }
+  .geo-triangle{ display:none !important; }
+}
+
+@media(max-width:480px){
+  h1{ font-size:2.2rem !important; }
+  section{ padding:40px 12px !important; }
+  
+  .blog-grid{ gap:20px !important; }
+  .blog-card{ margin-bottom:0 !important; }
+  .card-content{ padding:18px 14px !important; }
+  
+  .blog-card h3 a{ font-size:1.1rem !important; }
+  .blog-card p{ font-size:0.9rem !important; }
+  
+  /* Further reduce geometric elements on very small screens */
+  .geo-circle{ width:80px !important; height:80px !important; opacity:0.5 !important; }
+  .geo-square{ width:40px !important; height:40px !important; opacity:0.5 !important; }
+}
+
+/* Search Input Styling */
+input[type="text"]:focus, input[type="email"]:focus {
+  outline:none !important;
+  border-color:rgba(255,255,255,0.4) !important;
+}
+
+input[type="text"]::placeholder, input[type="email"]::placeholder {
+  color:rgba(255,255,255,0.6) !important;
+}
+
+/* Ensure proper box sizing */
+*, *::before, *::after {
+  box-sizing:border-box;
+}
+</style>
+
+{% endblock %}

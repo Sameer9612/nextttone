@@ -1,0 +1,740 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ model.name }} - Elite Model Profile{% endblock %}
+
+{% block content %}
+
+<style>
+/* ------------------- BASE STYLING ------------------- */
+body {
+  background-color: #f9f9fb;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+h1, h2, h6 {
+  font-weight: 700;
+}
+.container {
+  max-width: 1200px;
+}
+
+/* ------------------- BREADCRUMB ------------------- */
+.custom-breadcrumb {
+  font-size: 0.9rem;
+}
+.custom-breadcrumb a {
+  color: #000000ff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.custom-breadcrumb a:hover {
+  color: #000000ff;
+  text-decoration: underline;
+}
+
+/* ------------------- HERO SECTION ------------------- */
+.profile-hero {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+  margin-bottom: 2rem;
+}
+.model-main-image {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+}
+
+/* Bigger image on desktop */
+@media (min-width: 992px) {
+  .model-main-image {
+    max-width: 1600px;
+    height: 1100px;
+  }
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 25px;
+  background: #e5fbee;
+  color: #28a745;
+  font-weight: 600;
+}
+.status-unavailable {
+  background: #fbe9e9;
+  color: #d9534f;
+}
+
+/* ------------------- STATS ------------------- */
+.stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+.stat-card {
+  background: #fdfdfd;
+  border: 1px solid #ebebeb;
+  padding: 1rem;
+  border-radius: 12px;
+  flex: 1;
+  min-width: 280px;
+  height: 340px;
+}
+.stat-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: .75rem;
+}
+.stat-card-header h6 {
+  font-weight: 600;
+  margin: 0;
+}
+.stat-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+}
+.stat-label {
+  font-weight: 500;
+}
+.stat-value {
+  font-weight: 600;
+  color: #000;
+}
+
+/* ------------------- BIO ------------------- */
+.bio-card {
+  background: #fff;
+  padding: 1.2rem;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+  margin-bottom: 1.5rem;
+}
+.bio-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bio-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.bio-text {
+  margin-top: .5rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* ------------------- ENHANCED BUTTONS (NO HOVER EFFECTS) ------------------- */
+.book-now-btn,
+.submit-btn {
+  background: linear-gradient(135deg, #000000, #333333);
+  border: none;
+  color: #fff !important;
+  border-radius: 25px;
+  padding: .6rem 1.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: none; /* Remove transitions */
+}
+
+.book-now-btn i,
+.submit-btn i,
+.book-now-btn span,
+.submit-btn span {
+  color: #ffffff !important;
+}
+
+.book-now-btn:active,
+.submit-btn:active {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  color: #ffffff !important;
+}
+
+/* Remove all hover effects */
+.book-now-btn:hover,
+.submit-btn:hover {
+  background: linear-gradient(135deg, #000000, #333333); /* Keep original background */
+  color: #ffffff !important;
+  transform: none; /* Remove transform */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* Keep original shadow */
+}
+
+.book-now-btn:hover i,
+.submit-btn:hover i,
+.book-now-btn:hover span,
+.submit-btn:hover span {
+  color: #ffffff !important;
+}
+
+/* Remove pseudo-elements used for hover effects */
+.book-now-btn:before,
+.submit-btn:before {
+  display: none;
+}
+
+
+/* ------------------- SUCCESS MODAL STYLES ------------------- */
+.success-modal .modal-content {
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  animation: successPulse 2s infinite;
+}
+
+@keyframes successPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.success-title {
+  color: #28a745;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.success-message {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* ------------------- SLIDESHOW ------------------- */
+.slideshow-section {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 15px;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+  margin-bottom: 2.5rem;
+  
+}
+.slideshow-image {
+  width: 100%;
+  height: 600px; /* or your desired fixed height */
+  object-fit: contain;   /* Show full image without cropping */
+  object-position: center center; /* Center image inside container */
+  border-radius: 10px;
+  background-color: #f0f0f0; /* Optional: neutral background to fill empty space */
+}
+
+.carousel-caption {
+  background: rgba(0,0,0,0.55);
+  padding: .6rem 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* ------------------- PORTFOLIO ------------------- */
+/* ------------------- ALWAYS VISIBLE PORTFOLIO ------------------- */
+.always-visible-portfolio {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.portfolio-visible-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.2rem;
+}
+
+.portfolio-visible-card {
+  background: #fff;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px 0 rgba(0,0,0,0.10);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow .28s;
+}
+.portfolio-visible-card:hover {
+  box-shadow: 0 20px 66px 0 rgba(0,0,0,0.16);
+}
+/* Fix portfolio images to show full head without cropping */
+.portfolio-visible-image,
+.portfolio-masonry-image {
+  width: 100%;
+  height: auto;       /* Allow height to adjust based on image ratio */
+  max-height: none;   /* Remove any fixed max height */
+  object-fit: contain; /* Show entire image without cropping */
+  background: #f5f5f5; /* Optional: neutral background to fill space */
+  border-radius: 18px;
+}
+
+.portfolio-visible-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  background: #eaeaea;
+}
+
+.portfolio-visible-body {
+  padding: 1.4rem 1.7rem 1.2rem 1.7rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+
+.portfolio-visible-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.portfolio-card-title {
+  font-size: 1.16rem;
+  font-weight: 700;
+  margin-bottom: 0;
+  margin-right: .7rem;
+  letter-spacing: .03em;
+}
+
+.overlay-badge {
+  background: #eef2f8;
+  color: #171717;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.25rem 0.9rem;
+}
+.badge-premium {
+  background: linear-gradient(90deg, #2c2b36 60%, #bc8f1e 100%);
+  color: #ffe59e;
+  font-weight: 700;
+  font-size: .95rem;
+  margin-right: .2rem;
+}
+
+.portfolio-description {
+  color: #444;
+  font-size: 1.01rem;
+  margin: 0.3rem 0 0.7rem 0;
+}
+
+.portfolio-meta {
+  font-size: 0.95rem;
+  color: #988e8e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: .45rem;
+  gap: .7rem;
+}
+
+@media (max-width: 768px) {
+  .portfolio-visible-grid { grid-template-columns: 1fr; gap: 1.5rem;}
+  .portfolio-visible-image { height: auto; }
+  .portfolio-visible-body { padding: 1rem 1.2rem; }
+}
+
+/* ------------------- MODAL ------------------- */
+.custom-modal .modal-content {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.2rem;
+}
+.modal-header {
+  border-bottom: none;
+}
+.modal-footer {
+  border-top: none;
+}
+
+/* ------------------- RESPONSIVENESS ------------------- */
+
+@media (min-width: 992px) {
+  body { font-size: 15px; }
+  h1, h2, h6 { font-size: 1.4rem; }
+  .model-title, .slideshow-title, .portfolio-title { font-size: 1.7rem; }
+  .profile-hero { padding: 1rem; gap: 1rem; }
+.model-main-image { 
+    max-width: 500px; 
+    height: 600px; 
+    margin: 0 auto 1rem auto;
+    display: block;
+}
+
+
+
+  .stats-container { gap: 0.7rem; margin-bottom: 1rem; }
+  .stat-card { min-width: 220px; height: 340px; padding: 0.5rem; }
+  .bio-card { padding: 0.6rem; }
+  .portfolio-image { height: 180px; }
+  .portfolio-body { padding: 0.5rem; }
+  .slideshow-section { padding: 0.7rem; }
+  .slideshow-image { height: 800px; }
+  .book-now-btn, .submit-btn { padding: 0.4rem 1.1rem; font-size: 0.95rem; }
+  .portfolio-image {
+    height: 480px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.11);
+    object-fit: cover;
+    transition: box-shadow .25s;
+  }
+  .portfolio-image-wrapper:hover .portfolio-image {
+    box-shadow: 0 12px 34px rgba(0,0,0,0.20);
+  }
+  .portfolio-card {
+    border: 1px solid #ececec;
+    background: #fff;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-container {
+    justify-content: center;
+    gap: 1rem;
+  }
+  .stat-card {
+    min-width: 260px;
+    max-width: 90%; 
+    height: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  body { font-size: 14px; }
+  .model-title { font-size: 1.6rem; }
+  .slideshow-title, .portfolio-title { font-size: 1.6rem; }
+  .portfolio-grid { grid-template-columns: 1fr; }
+  .book-now-btn { width: 100%; }
+  .modal-dialog { max-width: 95%; margin: auto; }
+  .portfolio-image { height: 400px; }
+
+  .stats-container {
+    flex-direction: column;
+    align-items: center;
+    min-height: 360px;
+  }
+  .stat-card {
+    width: 100%;
+    max-width: 320px;
+    min-height: 100px;
+    height: auto;
+  }
+}
+
+
+
+</style>
+
+<div class="container">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="custom-breadcrumb slide-in-up">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">HOME</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'model-list' %}">MODELS</a></li>
+            <li class="breadcrumb-item active">{{ model.name|upper }}</li>
+        </ol>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="row profile-hero slide-in-up-delay-1">
+        <div>
+            <div>
+                {% if model.profile_image %}
+                    <img src="{{ model.profile_image.url }}" class="model-main-image" alt="{{ model.name }}">
+                    <div class="image-overlay"></div>
+                {% else %}
+                    <div class="model-main-image bg-dark d-flex align-items-center justify-content-center" style="height:100%; min-height: 300px;">
+                        <i class="fas fa-user fa-5x text-white"></i>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div>
+            <div>
+                <div class="mb-4">
+                    <h1 class="model-title">{{ model.name }}</h1>
+                    {% if model.status == 'active' %}
+                        <div class="status-badge"><i class="fas fa-circle"></i><span>Available</span></div>
+                    {% else %}
+                        <div class="status-badge status-unavailable"><i class="fas fa-pause"></i><span>{{ model.get_status_display }}</span></div>
+                    {% endif %}
+                </div>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-card-header"><i class="fas fa-ruler-vertical"></i><h6 class="stat-card-title">Measurements</h6></div>
+                        <ul class="stat-list">
+                            <li class="stat-item"><span class="stat-label">Height</span><span class="stat-value">{{ model.height }}cm</span></li>
+                            <li class="stat-item"><span class="stat-label">{{ model.get_chest_bust_type_display }}</span><span class="stat-value">{{ model.chest_bust_size }}cm</span></li>
+                            <li class="stat-item"><span class="stat-label">Waist</span><span class="stat-value">{{ model.waist }}cm</span></li>
+                            <li class="stat-item"><span class="stat-label">Hips</span><span class="stat-value">{{ model.hips }}cm</span></li>
+                            <li class="stat-item"><span class="stat-label">Shoe Size</span><span class="stat-value">{{ model.shoe_size }}</span></li>
+                            <li class="stat-item"><span class="stat-label">Gender</span><span class="stat-value">{{ model.get_gender_display }}</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bio-card">
+                    <div class="bio-header"><i class="fas fa-quote-left"></i><h6 class="bio-title">Biography</h6></div>
+                    <p class="bio-text">{{ model.bio|default:"Professional model with extensive experience in the fashion industry. Available for high-end shoots and exclusive events." }}</p>
+                </div>
+                <div class="book-now-container">
+                    <button class="book-now-btn" data-bs-toggle="modal" data-bs-target="#bookingModal">
+                        <i class="fas fa-calendar-alt me-2"></i>Book Model
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slideshow Section -->
+    {% if model.slideshow_images.all %}
+    <div class="slideshow-section slide-in-up-delay-2 my-5">
+        <h2 class="slideshow-title mb-4" style="text-align: center; font-size: 2.5rem; font-weight: bold;">Gallery</h2>
+        <div id="modelSlideshow" class="carousel slide model-carousel" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+                {% for image in model.slideshow_images.all|slice:":4" %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="slideshow-image-wrapper">
+                        <img src="{{ image.image.url }}" class="d-block w-100 slideshow-image" alt="{{ image.caption|default:'Gallery Image' }}">
+                        <div class="slideshow-overlay"></div>
+                        {% if image.caption %}
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>{{ image.caption }}</h5>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#modelSlideshow" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon custom-carousel-icon"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#modelSlideshow" data-bs-slide="next">
+                <span class="carousel-control-next-icon custom-carousel-icon"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            <div class="carousel-indicators custom-indicators">
+                {% for image in model.slideshow_images.all|slice:":4" %}
+                <button type="button" data-bs-target="#modelSlideshow" data-bs-slide-to="{{ forloop.counter0 }}"
+                        {% if forloop.first %}class="active" aria-current="true"{% endif %}
+                        aria-label="Slide {{ forloop.counter }}"></button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Portfolio Section -->
+  <!-- Portfolio Section -->
+<div class="portfolio-section always-visible-portfolio slide-in-up-delay-3">
+  <h2 class="portfolio-title">Portfolio</h2>
+  {% if portfolio %}
+    <div class="portfolio-visible-grid">
+      {% for item in portfolio %}
+        <div class="portfolio-visible-card">
+          <img src="{{ item.image.url }}" class="portfolio-visible-image" alt="{{ item.title }}">
+          <div class="portfolio-visible-body">
+            <div class="portfolio-visible-header">
+              <h6 class="portfolio-card-title">{{ item.title }}</h6>
+              {% if item.is_featured %}
+                <span class="badge badge-premium"><i class="fas fa-gem me-1"></i>Featured</span>
+              {% endif %}
+              <span class="badge overlay-badge">{{ item.get_category_display }}</span>
+            </div>
+            {% if item.description %}
+              <p class="portfolio-description">{{ item.description|truncatewords:18 }}</p>
+            {% endif %}
+            <div class="portfolio-meta">
+              {% if item.photographer %}
+                <span><i class="fas fa-camera me-1"></i>{{ item.photographer }}</span>
+              {% endif %}
+              <span>{{ item.shoot_date|date:"M Y" }}</span>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-light text-center" style="border: 2px solid #e0e0e0;">
+      <i class="fas fa-folder-open fa-3x mb-3" style="color: #666;"></i>
+      <h4 style="color: #000; font-weight: 800; text-transform: uppercase;">Portfolio Coming Soon</h4>
+      <p style="color: #666;">Portfolio items will be available soon.</p>
+    </div>
+  {% endif %}
+</div>
+
+
+<!-- Booking Modal -->
+<div class="modal fade custom-modal" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookingModalLabel">
+                    <i class="fas fa-calendar-alt me-2"></i>Book {{ model.name|upper }}
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{% url 'book-model' model.pk %}" id="bookingForm">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="client_name" class="form-label">Name *</label>
+                                <input type="text" class="form-control" id="client_name" name="client_name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="client_email" class="form-label">Email *</label>
+                                <input type="email" class="form-control" id="client_email" name="client_email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="client_phone" class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="client_phone" name="client_phone">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="booking_type" class="form-label">Type *</label>
+                                <select class="form-select" id="booking_type" name="booking_type" required>
+                                    <option value="">Select type...</option>
+                                    <option value="photoshoot">Photoshoot</option>
+                                    <option value="runway">Runway Show</option>
+                                    <option value="commercial">Commercial</option>
+                                    <option value="event">Event</option>
+                                    <option value="campaigns">Campaigns</option>
+                                    <option value="ugc_influencer">UGC & Influencer Content</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="start_date" class="form-label">Date *</label>
+                                <input type="datetime-local" class="form-control" id="start_date" name="start_date" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Location *</label>
+                                <input type="text" class="form-control" id="location" name="location" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Project Title *</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description *</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="budget" class="form-label">Budget</label>
+                        <input type="number" class="form-control" id="budget" name="budget" step="0.01" placeholder="0.00">
+                    </div>
+                    <div class="booking-info-card">
+                        <h6><i class="fas fa-user me-2"></i>{{ model.name|upper }}</h6>
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="mb-1"><strong>HEIGHT:</strong> {{ model.height }}cm</p>
+                                <p class="mb-1"><strong>{{ model.get_chest_bust_type_display|upper }}:</strong> {{ model.chest_bust_size }}cm</p>
+                                <p class="mb-1"><strong>WAIST:</strong> {{ model.waist }}cm</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-1"><strong>HIPS:</strong> {{ model.hips }}cm</p>
+                                <p class="mb-1"><strong>SHOE SIZE:</strong> {{ model.shoe_size }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane me-2"></i>Submit Request
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal fade success-modal" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body p-5">
+                <div class="success-icon">
+                    <i class="fas fa-check fa-2x text-white"></i>
+                </div>
+                <h3 class="success-title">Booking Submitted Successfully!</h3>
+                <p class="success-message mb-4">
+                    Thank you for your booking request for <strong>{{ model.name }}</strong>.<br>
+                    Our team will contact you within <strong>24 hours</strong> to confirm your booking details.
+                </p>
+                
+                <button type="button" class="btn btn-success btn-lg mt-3" data-bs-dismiss="modal">
+                    <i class="fas fa-thumbs-up me-2"></i>Got it!
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Show success modal if booking was successful
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            document.addEventListener('DOMContentLoaded', function() {
+                var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+            });
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+// Enhanced form submission with loading state
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    var submitBtn = this.querySelector('.submit-btn');
+    var originalText = submitBtn.innerHTML;
+    
+    // Show loading state
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
+    submitBtn.disabled = true;
+    
+    // Re-enable button after 5 seconds (fallback)
+    setTimeout(function() {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }, 5000);
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block title %}Blogs{% endblock %}
+
+{% block head_title %}{{ blog.meta_title|default:blog.title }}{% endblock %}
+{% block meta_description %}{{ blog.meta_description|default:blog.summary }}{% endblock %}
+{% block meta_keywords %}{{ blog.meta_keywords|default:"blog, modeling, fashion" }}{% endblock %}
+
+{% block content %}
+<div style="background:#f8f9fa; min-height:100vh;  margin-top:100px; font-family:'Inter', sans-serif;">
+  <div style="max-width:1200px; margin:auto; display:grid; grid-template-columns:2fr 1fr; gap:50px;">
+    <!-- Main Article Section -->
+    <main>
+      <!-- Hero Image -->
+      {% if blog.image %}
+      <div style="margin-bottom:30px; border-radius:16px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+        <img
+          src="{{ blog.image.url }}"
+          alt="{{ blog.title }}"
+          class="blog-main-image"
+        >
+      </div>
+      {% endif %}
+
+      <!-- Article Content Card -->
+      <article style="background:#fff; border-radius:16px; padding:50px; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+        <!-- Article Header -->
+        <header style="margin-bottom:40px;">
+          <h1 style="font:700 2.8rem/1.2 'Playfair Display', serif; color:#1a1a1a; margin:0 0 20px;">
+            {{ blog.title }}
+          </h1>
+          <!-- Meta Info -->
+          <div style="display:flex; align-items:center; gap:20px; font:400 0.95rem 'Inter', sans-serif; color:#666; margin-bottom:20px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="width:32px; height:32px; background:rgba(0,0,0,0.8); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font:600 0.85rem 'Inter', sans-serif;">
+                {{ blog.author.username|first|upper }}
+              </div>
+              <span style="font-weight:600; color:#333;">{{ blog.author.username }}</span>
+            </div>
+            <span>•</span>
+            <span>{{ blog.created_on|date:"F j, Y" }}</span>
+            <span>•</span>
+            <span>{{ blog.views }} views</span>
+          </div>
+        </header>
+
+        <!-- Article Body -->
+        <div class="blog-content" style="font:400 1.15rem/1.75 'Georgia', serif; color:#2d3748; text-align:justify; line-height:1.8;">
+          {{ blog.content|safe }}
+        </div>
+
+        <!-- Back Button -->
+        <div style="margin-top:50px; padding-top:30px; border-top:1px solid #e2e8f0;">
+          <a href="{% url 'blog_list' %}" style="
+            display:inline-flex; align-items:center; gap:10px;
+            background:linear-gradient(135deg, #000 0%, #000000ff 100%);
+            color:#fff;
+            text-decoration:none;
+            padding:14px 28px;
+            border-radius:8px;
+            font:600 0.95rem 'Inter', sans-serif;
+            transition:all 0.3s ease;
+            box-shadow:0 4px 15px rgba(0, 0, 0, 0.3);
+          " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.4)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.3)'">
+            ← Back to Articles
+          </a>
+        </div>
+      </article>
+    </main>
+
+    <!-- Sidebar -->
+    <aside>
+      <!-- Recent Posts Section -->
+      <div style="background:#fff; border-radius:16px; padding:30px; box-shadow:0 4px 20px rgba(0,0,0,0.08); margin-bottom:30px;">
+        <h3 style="font:700 1.2rem 'Inter', sans-serif; color:#1a1a1a; margin:0 0 25px; text-transform:uppercase; letter-spacing:1px;">
+          Recent Posts
+        </h3>
+        <div style="display:flex; flex-direction:column; gap:20px;">
+          {% for recent_post in recent_posts %}
+          <div style="display:flex; gap:15px; {% if not forloop.last %}padding-bottom:20px; border-bottom:1px solid #f0f0f0;{% endif %}">
+            <div style="flex-shrink:0;">
+              <div style="width:80px; height:80px; background:linear-gradient(135deg,#ff9a9e,#fecfef); border-radius:12px; overflow:hidden;">
+                {% if recent_post.image %}
+                  <img src="{{ recent_post.image.url }}" style="width:100%; height:100%; object-fit:cover;" alt="{{ recent_post.title }}">
+                {% else %}
+                  <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#fff; font:600 0.8rem 'Inter', sans-serif;">
+                    {{ recent_post.title|first|upper }}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            <div style="flex:1;">
+              <h4 style="font:600 0.9rem/1.3 'Inter', sans-serif; color:#333; margin:0 0 8px;">
+                <a href="{% url 'blog_detail' slug=recent_post.slug %}" style="text-decoration:none; color:inherit;">
+                  {{ recent_post.title|truncatechars:45 }}
+                </a>
+              </h4>
+              <p style="font:400 0.8rem 'Inter', sans-serif; color:#666; margin:0;">
+                {{ recent_post.created_on|date:"F j, Y" }}
+              </p>
+            </div>
+          </div>
+          {% empty %}
+          <p style="color:#666; font:400 0.9rem 'Inter', sans-serif; text-align:center; padding:20px;">
+            No recent posts available
+          </p>
+          {% endfor %}
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- Responsive Design -->
+<style>
+.blog-main-image {
+  width: 100%;
+  height: 480px;           /* Increased height */
+  max-width: 900px;
+  object-fit: cover;
+  display: block;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  transition: height 0.3s, width 0.3s;
+}
+@media (max-width: 1024px){
+  div[style*='grid-template-columns:2fr 1fr']{
+    grid-template-columns:1fr !important;
+    gap:40px !important;
+  }
+}
+@media (max-width: 768px) {
+  .blog-main-image {
+    height: 280px !important;   /* Adjusted height for tablets */
+    width: 95% !important;
+    margin: auto;
+  }
+  main article{padding:30px 24px !important;}
+  div[style*='padding:40px 20px']{padding:20px 16px !important;}
+  h1{font-size:2.2rem !important;}
+  aside > div{margin-bottom:20px;}
+}
+@media (max-width: 480px) {
+  .blog-main-image {
+    height: 300px !important;   /* Adjusted height for mobiles */
+    width: 93% !important;
+    margin: auto;
+  }
+  main article{padding:24px 16px !important;}
+  h1{font-size:1.8rem !important; line-height:1.3 !important;}
+}
+.blog-content a {
+  color: blue;
+  text-decoration: underline;
+}
+.blog-content a:hover {
+  color: darkblue;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,604 @@
+{% extends 'base.html' %}
+
+{% block title %}Nextttone Modeling Agency{% endblock %}
+{% load static %}
+{% block content %}
+
+
+
+
+<!-- Full Screen Video Background Section -->
+<main class="hero-section">
+    <!-- Background Video - Full Screen -->
+    <video class="bg-video" autoplay muted loop playsinline>
+        <source src="{% static 'images/homemain.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <!-- Content Overlay -->
+    <div class="content-overlay">
+        <div class="hero-content">
+            <p class="welcome-text">WELCOME TO</p>
+            <h1 class="main-title">NEXTTT ONE</h1>
+            <p class="subtitle">A GLOBAL MODELING AGENCY</p>
+            <a href="{% url 'nta'%}" class="cta-button mt-3">Become A Model</a>
+    
+</main>
+
+
+
+
+   
+<!-- Image Carousel Section -->
+<div class="carousel-section">
+    <div class="carousel-container">
+        <div id="modelCarousel" class="carousel slide" data-bs-ride="carousel">
+            <!-- Carousel Indicators -->
+            {% comment %} <div class="carousel-indicators">
+                <button type="button" data-bs-target="#modelCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#modelCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#modelCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div> {% endcomment %}
+            
+            <!-- Carousel Images -->
+            <div class="carousel-inner mt-5 ">
+                <!-- Image 1 -->
+                <div class="carousel-item active">
+                    <div class="carousel-image-container">
+                        <img src="{% static 'images/gabriella.jpg' %}" class="d-block w-100  carousel-main-image" alt="Model 1">
+                    </div>
+                </div>
+                
+                <!-- Image 2 -->
+                <div class="carousel-item">
+                    <div class="carousel-image-container">
+                        <img src="{% static 'images/hygor.jpg' %}" class="d-block w-100 carousel-main-image" alt="Model 2">
+                    </div>
+                </div>
+                
+                <!-- Image 3 -->
+                <div class="carousel-item">
+                    <div class="carousel-image-container">
+                        <img src="{% static 'images/nathalia.jpg' %}" class="d-block w-100 carousel-main-image" alt="Model 3">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Left and Right Navigation Buttons -->
+           <button class="carousel-control-prev" type="button" data-bs-target="#modelCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#modelCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>  
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Featured Models Section -->
+<div class="container my-5 ">
+  <h2 class="text-center mb-4">Featured Models</h2>
+  <p class="text-center mb-5">Discover our top talent making waves in the industry.</p>
+    <!-- Models Grid -->
+    <div class="models-container">
+        {% for model in featured_models %}
+        <div class="model-card">
+            <div class="model-image-container">
+                {% if model.profile_image %}
+                    <img src="{{ model.profile_image.url }}" 
+                         class="model-image" 
+                         alt="{{ model.stage_name }}">
+                {% else %}
+                    <div class="model-image bg-light d-flex align-items-center justify-content-center">
+                        <i class="fas fa-user fa-3x text-muted"></i>
+                    </div>
+                {% endif %}
+                
+                <!-- Model Name Overlay on Image -->
+                <div class="model-name-overlay">
+                    <h3>{{ model.stage_name|upper }}</h3>
+                </div>
+                
+                <!-- Hover Overlay -->
+                <div class="model-overlay">
+                    <div class="overlay-content">
+                        <a href="{% url 'model-view' model.pk %}" class="btn">View Profile</a>
+                    </div>
+                </div>
+            </div>
+            
+           
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <div class="alert alert-info">
+                <h4>No featured models available</h4>
+                <p>Please check back later for our latest talent.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div style="text-align: center; margin: 30px 0;">
+    <a href="{% url 'model-list' %}" style="text-decoration: none;">
+        <button style="
+            background-color: #000000ff;
+            color: #FFD700;
+            border: 1px solid #000000ff;
+            padding: 15px 40px;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            transition: all 0.3s ease;
+        "
+        onmouseover="this.style.backgroundColor='#FFD700'; this.style.color='#000000';"
+        onmouseout="this.style.backgroundColor='#000000ff'; this.style.color='#FFD700';">
+            View More
+        </button>
+    </a>
+</div>
+
+
+
+<!-- Services Section with Overlapping Cards -->
+<!-- Our Services Section with Circular Images -->
+<section class="services-section-visual">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center mb-5">
+        <h2 class="services-main-heading">Our Services</h2>
+        <p class="services-subtitle">Professional Modelling & Fashion Services Designed for Your Success</p>
+      </div>
+    </div>
+
+    <div class="container mt-4">
+      <div class="row">
+        <!-- Card 1 -->
+      
+  <div class="col-md-4 mb-4">
+  <div class="card h-100" style="border: none;">
+    <img src="{% static 'images/campaign.png' %}" class="card-img-top" alt="Runway Training">
+    <div class="card-body text-center">
+      <h5 class="card-title">Creative Social Media Campaigns</h5>
+      <p class="card-text">
+        We design impactful social media campaigns that highlight talent, boost visibility, and engage the right audience helping aspiring models and creators grow reach, influence, and digital presence with creative strategies.
+      </p>
+    </div>
+  </div>
+</div>
+
+
+
+        <!-- Card 2 -->
+        <div class="col-md-4 mb-4">
+          <div class="card h-100" style="border: none;">
+            <img src="{% static 'images/runway.png' %}" class="card-img-top" alt="Portfolio Shoot">
+            <div class="card-body text-center">
+              <h5 class="card-title">Runway Training</h5>
+              <p class="card-text">
+Master the walk with confidence. Our runway training refines posture, presence, and style preparing aspiring models to shine at fashion shows, campaigns, and global events.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="col-md-4 mb-4">
+          <div class="card h-100" style="border: none;">
+            <img src="{% static 'images/ugc.png' %}" class="card-img-top" alt="Grooming & Styling">
+            <div class="card-body text-center">
+              <h5 class="card-title">UGC & Influencer Content</h5>
+              <p class="card-text">We help aspiring models and creators build a strong digital presence with high-quality UGC and influencer content covering styling, shoots, and engaging visuals that boost personal brands and attract opportunities.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+         <div class="col-md-4 mb-4">
+          <div class="card h-100" style="border: none;">
+            <img src="{% static 'images/model training.png' %}" class="card-img-top" alt="Workshops">
+            <div class="card-body text-center">
+              <h5 class="card-title">Professional modeling training</h5>
+              <p class="card-text">Our professional modeling courses cover runway, posing, grooming, and camera confidence. Designed for aspiring models, the training builds skills, style, and presence-preparing talent for fashion shows, shoots, and industry success.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+          <div class="col-md-4 mb-4">
+          <div class="card h-100" style="border: none;">
+            <img src="{% static 'images/tv.png' %}" class="card-img-top" alt="Casting Assistance">
+            <div class="card-body text-center">
+              <h5 class="card-title">TV Commercials (TVCs)</h5>
+              <p class="card-text">High-quality TVCs that bring creative concepts to life. We give aspiring models on-screen opportunities to showcase talent, confidence, and presence preparing them for the spotlight in commercials and media.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="col-md-4 mb-4">
+          <div class="card h-100" style="border: none;">
+            <img src="{% static 'images/e com.png' %}" class="card-img-top" alt="Brand Collaborations">
+            <div class="card-body text-center">
+              <h5 class="card-title">E-Commerce Shoots</h5>
+              <p class="card-text">From fashion to lifestyle, our e-commerce shoots deliver professional visuals tailored for online platforms. We help models create polished portfolios while supporting brands with engaging, high-quality digital content.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<section class="differentiator-section container py-5">
+    <h2 class="differentiator-title text-center mb-1">
+        THE <span class="accent">DIFFERENTIATOR</span>
+    </h2>
+    <div class="differentiator-subtitle text-center mb-4">Why choose Nexttt One?</div>
+
+    <div class="differentiator-container">
+        <!-- Image with overlay carousel -->
+        <div class="differentiator-image-container">
+            <img src="{% static 'images/WHAT makes.png' %}" alt="Green Hair Person" class="differentiator-image">
+            
+            <!-- Carousel overlay -->
+            <div class="carousel-overlay">
+                <div id="differentiatorCarousel"
+                     class="carousel carousel-fade"
+                     data-bs-ride="carousel"
+                     data-bs-interval="4000"
+                     data-bs-touch="true"
+                     data-bs-keyboard="true">
+                    <div class="carousel-inner">
+                        <!-- Slide 1 -->
+                        <div class="carousel-item active">
+                            <div class="differentiator-card">
+                                <div class="differentiator-card-number">01</div>
+                                <div class="differentiator-card-title">
+                                    We Spot Talent Early
+                                </div>
+                                <div class="differentiator-card-description">
+                                  We have a knack for seeing potential before the spotlight does. Our team knows how to shape raw skill into something unforgettable.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 2 -->
+                        <div class="carousel-item">
+                            <div class="differentiator-card">
+                                <div class="differentiator-card-number">02</div>
+                                <div class="differentiator-card-title">
+                                    Your Journey, Your Way
+                                </div>
+                                <div class="differentiator-card-description">
+                                    No two artists are alike, so why should their paths be? We create strategies tailored to your unique strengths, goals, and style.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 3 -->
+                        <div class="carousel-item">
+                            <div class="differentiator-card">
+                                <div class="differentiator-card-number">03</div>
+                                <div class="differentiator-card-title">
+                                  Doors to the Right Opportunities
+                                </div>
+                                <div class="differentiator-card-description">
+                                   From your first breakthrough to major collaborations, we connect you with the people and projects that matter most to your growth.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 4 -->
+                        <div class="carousel-item">
+                            <div class="differentiator-card">
+                                <div class="differentiator-card-number">04</div>
+                                <div class="differentiator-card-title">
+                                    Careers That Stand the Test of Time
+                                </div>
+                                <div class="differentiator-card-description">
+                                  Trends come and go, but we focus on building lasting careers that evolve with you and keep you relevant in every chapter.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 5 -->
+                        <div class="carousel-item">
+                            <div class="differentiator-card">
+                                <div class="differentiator-card-number">05</div>
+                                <div class="differentiator-card-title">
+                                   Creativity Backed by Strategy
+                                </div>
+                                <div class="differentiator-card-description">
+                                    We mix bold ideas with smart planning so you not only grab attention, but also keep it where it counts.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 6 -->
+                        <div class="carousel-item">
+                            <div class="differentiator-card">
+                                <div class="differentiator-card-number">06</div>
+                                <div class="differentiator-card-title">
+                                   Your Win is Our Win
+                                </div>
+                                <div class="differentiator-card-description">
+                                   We measure our success by yours celebrating every milestone as if it were our own. Because in this journey, we rise together.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="stats-container">
+        <div class="stat-item">
+            <span class="stat-number">150+</span>
+            <span class="stat-label">Projects Completed</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">25+</span>
+            <span class="stat-label">Awards Won</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">10+</span>
+            <span class="stat-label">Years Experience</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Client Satisfaction</span>
+        </div>
+    </div>
+</section>
+
+
+
+<section>
+    <!-- ✅ Swiper Carousel Container -->
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+	
+
+		
+        <!-- Slides -->
+        <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+                <img class="swiper-slide-image" src="{% static 'images/flip.png' %}" alt="Flipkart Brand Logo" />
+          </figure>
+        </div>
+        <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+                <img class="swiper-slide-image" src="{% static 'images/Amazon.png' %}" alt="Flipkart Brand Logo" />
+          </figure>
+        </div>
+        <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+                <img class="swiper-slide-image" src="{% static 'images/Mufti.png' %}" alt="Flipkart Brand Logo" />
+          </figure>
+        </div>
+        <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+                <img class="swiper-slide-image"  src="{% static 'images/soul store.png' %}" alt="Flipkart Brand Logo" />
+          </figure>
+        </div>
+        <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+                <img class="swiper-slide-image"  src="{% static 'images/Lenskart.png' %}"  alt="Flipkart Brand Logo" />
+          </figure>
+        </div>
+        <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+            <img class="swiper-slide-image"  src="{% static 'images/myntra.png' %}"  alt="Flipkart Brand Logo" />
+          </figure>
+        </div>
+        <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+            <img class="swiper-slide-image"  src="{% static 'images/Noise.png' %}" alt="Volkswagen Brand Logo" />
+          </figure>
+        </div>
+        <!-- Duplicate for example -->
+        <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+            <img class="swiper-slide-image"  src="{% static 'images/puma.png' %}"  alt="Amazon Brand Logo" />
+          </figure>
+        </div>
+        <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+            <img class="swiper-slide-image"  src="{% static 'images/SNITCH.png' %}" alt="Volkswagen Brand Logo" />
+          </figure>
+        </div>
+        <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+			<img class="swiper-slide-image"  src="{% static 'images/TVS.png' %}"  alt="Volkswagen Brand Logo" />
+ 
+          </figure>
+        </div>
+
+          <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+			  <img class="swiper-slide-image"  src="{% static 'images/US.png' %}"  alt="Amazon Brand Logo" />
+       
+          </figure>
+        </div>
+        <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+            <img class="swiper-slide-image"  src="{% static 'images/VM.png' %}"  alt="Flipkart Brand Logo" />
+          </figure>
+        </div>
+        <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+            <img class="swiper-slide-image"  src="{% static 'images/Zivame.png' %}"  alt="Volkswagen Brand Logo" />
+          </figure>
+        </div>
+  
+          <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+            <img class="swiper-slide-image"  src="{% static 'images/campus (1).png' %}"  alt="Amazon Brand Logo" />
+          </figure>
+        </div>
+          <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+            <img class="swiper-slide-image"  src="{% static 'images/DYAVOL.png' %}"  alt="Amazon Brand Logo" />
+          </figure>
+        </div>
+          <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+            <img class="swiper-slide-image"  src="{% static 'images/Jockey.png' %}"  alt="Amazon Brand Logo" />
+          </figure>
+        </div>
+          <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+            <img class="swiper-slide-image"  src="{% static 'images/Raymond.png' %}"  alt="Amazon Brand Logo" />
+          </figure>
+        </div>
+          <div class="swiper-slide">
+          <figure class="swiper-slide-inner">
+            <img class="swiper-slide-image"  src="{% static 'images/SB.png' %}"  alt="Amazon Brand Logo" />
+          </figure>
+        </div>
+        
+       
+        <!-- Add more slides as needed -->
+      </div>
+
+      <!-- Navigation buttons -->
+      {% comment %} <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div> {% endcomment %}
+
+      <!-- Pagination -->
+      {% comment %} <div class="swiper-pagination"></div> {% endcomment %}
+    </div>
+  </section>
+
+
+
+
+
+
+
+  <div class="become-model-section">
+  <div class="become-model-content">
+    <p class="become-model-subheading">TAKE A CHANCE</p>
+    <h1 class="become-model-title">WORK WITH NEXTTTONE</h1>
+    <hr class="become-model-divider">
+    <p class="become-model-desc">
+      Are you ready to step into the spotlight? Join our team of models and showcase your talent to the world. Whether you’re experienced or just starting, we offer opportunities for everyone. Let your journey begin today!
+    </p>
+    <a href="{% url 'apply_model' %}">
+    <button class="become-model-btn">FILL THE FORM</button>
+    </a>
+  </div>
+  <div class="become-model-image"></div>      
+</div> 
+  
+
+
+  
+
+ 
+<div class="faq1" style="background: #181818; padding: 16px 20px;   font-size: 16px;">
+  <div class="container23">
+    <div class="faq-section">
+      {% comment %} <div class="image-section ">
+      <img src="{% static 'images/diago.jpeg' %}" alt="Modeling Agency">
+    </div> {% endcomment %}
+      <h1>FAQ</h1>
+      <p class="sample-text">
+        Have more questions about our <b>modelling agency</b>? Find answers to common queries below.<br>
+        Image from 
+      </p>
+
+      <div class="faq-item">
+        <div class="faq-question active">
+          How can I apply to become a model?
+          <span class="arrow">&#8964;</span>
+        </div>
+        <div class="faq-answer show">
+          You can apply by filling out our online application form and submitting recent photos. After reviewing, we will contact shortlisted applicants for interviews and test shoots.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          What types of models do you represent?
+          <span class="arrow">&#8964;</span>
+        </div>
+        <div class="faq-answer">
+          We represent models for fashion, commercial, plus-size, fitness categories. We welcome diversity in age, background, and style.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          Do I need prior experience to join?
+          <span class="arrow">&#8964;</span>
+        </div>
+        <div class="faq-answer">
+          No prior experience is required. We look for attitude and potential and provide guidance and training for new talent.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          Does your agency charge any fees?
+          <span class="arrow">&#8964;</span>
+        </div>
+        <div class="faq-answer">
+          We do not charge sign-up or hidden fees. If you wish, you can purchase a professional portfolio package through us, but this is not mandatory.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          How do you promote your models?
+          <span class="arrow">&#8964;</span>
+        </div>
+        <div class="faq-answer">
+          We promote our models through our website, industry contacts, casting platforms, and social media to maximize exposure and opportunities.
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+
+
+
+
+
+
+<script>
+ function animateCounter(element, target) {
+            let count = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                count += increment;
+                if (count >= target) {
+                    count = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(count) + (element.textContent.includes('+') ? '+' : '') + (element.textContent.includes('%') ? '%' : '');
+            }, 20);
+        }
+
+        // Trigger counter animation when stats come into view
+        const statsObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const number = entry.target.querySelector('.stat-number');
+                    const target = parseInt(number.textContent);
+                    animateCounter(number, target);
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        document.querySelectorAll('.stat-item').forEach(stat => {
+            statsObserver.observe(stat);
+        });
+</script>
+
+
+{% endblock %}

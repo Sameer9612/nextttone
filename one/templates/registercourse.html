@@ -1,0 +1,441 @@
+{% extends "base.html" %}
+
+{% block title %}Course Registration{% endblock %}
+{% load static %}
+{% block content %}
+<style>
+    /* Reset CSS */
+    body {
+        font-family: "Poppins", sans-serif;
+    }
+
+    .register {
+        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+                    url("{% static 'images/about1.jpeg' %}") center center no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        padding: 3em 0;
+    }
+
+    a {
+        text-decoration: none;
+        transition: 0.3s all;
+    }
+
+    /* Main Container */
+    .register-full {
+        width: 80%;
+        margin: 2em auto 0;
+        max-width: 1200px;
+        margin-top: 70px;
+        margin-bottom: 100px;
+    }
+
+    /* Left Section */
+    .register-left {
+        width: 60%;
+        float: left;
+        color: #ffffff;
+        text-align: center;
+    }
+
+    .logo1 {
+        margin-top: 1em;
+    }
+
+    .logo1 span.fa {
+        color: #fff;
+        font-size: 6em;
+    }
+
+    .register-left h1 {
+        font-size: 3em;
+        text-transform: uppercase;
+        margin: 0.5em 0;
+    }
+
+    .register-left p {
+        margin: 2em 0;
+        line-height: 28px;
+        font-size: 15px;
+        padding: 0 4em;
+        letter-spacing: 1px;
+    }
+
+    /* Buttons */
+    .content3 {
+        margin: 7% auto 2%;
+    }
+
+    .content3 ul li {
+        display: inline-block;
+        margin: 0 0.5em;
+    }
+
+    .content3 a {
+        background: #000000;
+        color: #ffffff;
+        padding: 12px 30px;
+        font-size: 15px;
+        letter-spacing: 1px;
+        outline: 2px solid #fff;
+        outline-offset: 4px;
+        transition: 0.3s all;
+    }
+
+    .content3 a:hover {
+        background: #ffffff;
+        outline: 2px solid transparent;
+        color: #000000;
+    }
+
+    .content3 a.read {
+        background: #ffffff;
+        color: #000000;
+    }
+
+    .content3 a.read:hover {
+        background: #000000;
+        color: white;
+    }
+
+    /* Right Section - Form */
+    .register-right {
+        width: 40%;
+        float: left;
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .register-in {
+        padding: 3em;
+    }
+
+    .register-right h2 {
+        text-transform: uppercase;
+        font-size: 2em;
+        font-weight: 300;
+        letter-spacing: 1px;
+        color: #fff;
+        margin-bottom: 2em;
+    }
+
+    /* Message styling */
+    .messages {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 2em 0;
+    }
+
+    .messages li {
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        color: #fff;
+    }
+
+    .messages li.success {
+        background-color: rgba(40, 167, 69, 0.8);
+        border: 1px solid #28a745;
+    }
+
+    .messages li.error {
+        background-color: rgba(220, 53, 69, 0.8);
+        border: 1px solid #dc3545;
+    }
+
+    .messages li.warning {
+        background-color: rgba(255, 193, 7, 0.8);
+        border: 1px solid #ffc107;
+        color: #000;
+    }
+
+    .messages li.info {
+        background-color: rgba(23, 162, 184, 0.8);
+        border: 1px solid #17a2b8;
+    }
+
+    /* Form Styling */
+    .styled-input {
+        position: relative;
+        margin: 0 0 2em;
+    }
+
+    .styled-input input {
+        font-size: 1em;
+        color: #fff;
+        padding: 0.5em 1em;
+        border: 0;
+        width: 90%;
+        border-bottom: 1px solid #fff;
+        background: none;
+        outline: none;
+        font-family: "Poppins", sans-serif;
+    }
+
+    .styled-input label {
+        color: #fff;
+        padding: 0.5em 0.9em;
+        font-weight: 100;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: all 0.3s;
+        pointer-events: none;
+        font-size: 0.9em;
+    }
+
+    .styled-input input:focus ~ label,
+    .styled-input input:valid ~ label {
+        font-size: 0.9em;
+        color: #999;
+        top: -1.3em;
+        transition: all 0.125s;
+    }
+
+    .styled-input span {
+        display: block;
+        width: 0;
+        height: 2px;
+        background: #fff;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        transition: all 0.125s;
+    }
+
+    .styled-input input:focus ~ span {
+        width: 100%;
+    }
+
+    /* SELECT FIELD STYLING - NO UNDERLINE BUT WITH DROPDOWN ARROW */
+    .styled-input.select-field {
+        position: relative;
+    }
+
+    .styled-input.select-field select {
+        font-size: 1em;
+        color: #fff;
+        padding: 0.5em 2em 0.5em 1em;
+        border: none !important;
+        border-bottom: none !important;
+        background: transparent !important;
+        outline: none !important;
+        width: 97%;
+        font-family: "Poppins", sans-serif;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-decoration: none !important;
+        box-shadow: none !important;
+    }
+
+    .styled-input.select-field select:focus,
+    .styled-input.select-field select:active,
+    .styled-input.select-field select:hover {
+        border: none !important;
+        border-bottom: none !important;
+        outline: none !important;
+        text-decoration: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Hide animated underline for select */
+    .styled-input.select-field span {
+        display: none !important;
+    }
+
+    /* Custom dropdown arrow */
+    .styled-input.select-field::after {
+        content: '▼';
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #fff;
+        pointer-events: none;
+        font-size: 0.8em;
+        opacity: 0.9;
+    }
+
+    /* Hide ::before if needed */
+    .styled-input.select-field::before {
+        display: none !important;
+    }
+
+    /* Label styling for select */
+    .styled-input.select-field label {
+        color: #fff;
+        padding: 0.5em 0.9em;
+        font-weight: 100;
+        position: absolute;
+        top: -1.3em;
+        left: 0;
+        font-size: 0.9em;
+        color: #999;
+        pointer-events: none;
+    }
+
+    /* Checkbox */
+    .checkbox {
+        color: #fff;
+        margin: 1em 0;
+    }
+
+    .checkbox input[type="checkbox"] {
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .checkbox a {
+        color: #999;
+    }
+
+    .checkbox a:hover {
+        color: #fff;
+    }
+
+    /* Submit Button */
+    input[type="submit"] {
+        outline: none;
+        color: #000000ff;
+        width: 100%;
+        padding: 0.4em 1em;
+        font-size: 1.1em;
+        letter-spacing: 1px;
+        margin: 1.5em 0 0 0;
+        background-color:  #ffdb0c;
+        border: 2px solid #000000ff;
+        cursor: pointer;
+        transition: 0.3s all;
+        font-family: "Poppins", sans-serif;
+    }
+
+    input[type="submit"]:hover {
+        background: #000000ff;
+        border: 2px solid #000000;
+        color: #ffdb0c;
+        {% comment %} background-color:  #ffdb0c; {% endcomment %}
+    }
+
+    /* Clear Float */
+    .clear {
+        clear: both;
+    }
+
+    /* Select Options */
+    option {
+        background: #222;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .register-left,
+        .register-right {
+            width: 100%;
+            float: none;
+        }
+
+        .register-right {
+            width: 70%;
+            margin: 4em auto 0;
+        }
+
+        .register-left p {
+            padding: 0 2em;
+        }
+
+        .logo1 {
+            margin-top: 2em;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .register-full {
+            width: 90%;
+        }
+
+        .register-right {
+            width: 100%;
+        }
+
+        .register-in {
+            padding: 1.5em;
+        }
+
+        .styled-input input {
+            width: 85%;
+        }
+
+        .content3 a {
+            font-size: 14px;
+            padding: 8px 20px;
+        }
+    }
+</style>
+
+<section class="register">
+    <div class="register-full">
+        <div class="register-left">
+            <div class="logo1">
+                <span class="fa fa-camera-retro" aria-hidden="true"></span>
+            </div>
+            <h1>Register to our course</h1>
+            <p>
+                Our mission is to help aspiring models launch their careers. Fill out the form to register and we'll contact you in less than 24h.
+            </p>
+        </div>
+        
+        <div class="register-right">
+            <div class="register-in">
+                <h2><span class="fa fa-pencil"></span> register here</h2>
+                
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="styled-input">
+                        {{ form.full_name }}
+                        <label>Enter Full Name</label>
+                        <span></span>
+                        {{ form.full_name.errors }}
+                    </div>
+                    
+                    <div class="styled-input">
+                        {{ form.email }}
+                        <label>Email</label>
+                        <span></span>
+                        {{ form.email.errors }}
+                    </div>
+                    
+                    <div class="styled-input">
+                        {{ form.phone }}
+                        <label>Phone Number</label>
+                        <span></span>
+                        {{ form.phone.errors }}
+                    </div>
+                    <div class="styled-input select-field">
+                      {{ form.state }}
+                      <label>State</label>
+                      {{ form.state.errors }}
+                    </div>            
+                    <div class="styled-input select-field">
+                        {{ form.course_type }}
+                        <label>Course Type</label>
+                        {{ form.course_type.errors }}
+                    </div>
+                    
+                    <input type="submit" value="Register" />
+                </form>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</section>
+
+{% endblock content %}

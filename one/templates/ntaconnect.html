@@ -1,0 +1,352 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}NTA Connect {% endblock %}
+{% block content %}
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background-color: #000000;
+        color: #333;
+        font-size: 18px;
+    }
+</style>
+</head>
+<body>
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <nav>
+                <a href="#">Home</a>
+                <span class="breadcrumb-separator">›</span>
+                <a href="#">Courses</a>
+                <span class="breadcrumb-separator">›</span>
+                 
+                <span>NTA CONNECT: Self-paced Online Program</span>
+                
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="main-container">
+        
+        <div class="course-header">
+            
+            <!-- NTA Logo -->
+            <div class="nta-logo">
+               <img  src="{% static 'images/ntaconnect.png' %}"alt="Image Title" />
+            </div>
+
+            <!-- Course Content -->
+            <div class="course-content">
+                <h1 class="course-title">NTA CONNECT: Self-paced Online Modeling Program</h1>
+                <p class="course-description">
+                    Flexible online program with digital lessons and theory. Perfect for those needing access from anywhere with certification upon completion.
+                </p>
+            </div>
+
+            <!-- Course Sidebar -->
+            <div class="course-sidebar">
+                <div class="course-info">
+                    <div class="course-dates">
+                        <div class="date-label">Unlimited Access</div>
+                    </div>
+                      <a href="{% url 'course_registration'%}">
+                        <button class="enroll-btn">Get Digital Certification</button>
+                    </a>
+
+                    <div class="enrollment-stats">
+                        <span class="enrollment-number">100+</span> students enrolled worldwide
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Information Cards -->
+        <div class="course-info-cards">
+            <div class="cards-container">
+                <div class="info-card">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="card-title">Online Learning</div>
+                    <div class="card-subtitle">Digital lessons &<br>theory-based content</div>
+                </div>
+
+                <div class="info-card">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="#666" stroke-width="1.5"/>
+                        <path d="M12 6v6l4 2" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="card-title">Self-paced</div>
+                    <div class="card-subtitle">Complete at your<br>own schedule</div>
+                </div>
+
+                <div class="info-card">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="#666" stroke-width="1.5"/>
+                        <polyline points="3.27,6.96 12,12.01 20.73,6.96" stroke="#666" stroke-width="1.5"/>
+                        <line x1="12" y1="22.08" x2="12" y2="12" stroke="#666" stroke-width="1.5"/>
+                    </svg>
+                    <div class="card-title">Global Access</div>
+                    <div class="card-subtitle">Learn from<br>anywhere in the world</div>
+                </div>
+
+                <div class="info-card">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" stroke="#666" stroke-width="1.5"/>
+                        <line x1="8" y1="21" x2="16" y2="21" stroke="#666" stroke-width="1.5" stroke-linecap="round"/>
+                        <line x1="12" y1="17" x2="12" y2="21" stroke="#666" stroke-width="1.5"/>
+                    </svg>
+                    <div class="card-title">Digital Certification</div>
+                    <div class="card-subtitle">Online completion<br>certificate included</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About this course section with video -->
+    <div class="about-section">
+        <div class="about-content">
+            <h2 class="about-title">About this course</h2>
+            <p class="about-text">
+                <strong>NTA CONNECT</strong> is our flexible self-paced online modeling program designed for students who need maximum flexibility or want to access our training from anywhere in the world. This digital program covers the <strong>online version of Module 1</strong> with comprehensive theory-based lessons and foundational studies. Perfect for busy schedules or remote learning needs.
+            </p>
+            <button class="show-more-btn" onclick="toggleMore()">Show More</button>
+            <div id="moreContent" style="display: none;">
+                <p class="about-text">
+                    The program includes digital lessons covering modeling fundamentals, foundational studies, online support and guidance from our expert instructors, and certification upon successful completion. Please note that this online program does <strong>not include portfolio development or showcase components</strong> - it focuses purely on theoretical knowledge and foundational concepts that can be learned remotely.
+                </p>
+            </div>
+        </div>
+        
+        <div class="video-section">
+            <div class="video-container" id="videoContainer">
+                <div class="video-overlay">
+                    <div class="video-text">
+                        NTA<br>
+                        CONNECT<br>
+                        ONLINE<br>
+                        COURSE
+                    </div>
+                    <button class="play-button" onclick="playVideo()">
+                        <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        Play Video
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- What You'll Learn Section -->
+    <div class="learn-section">
+        <h2 class="learn-title">What you'll learn</h2>
+        <div class="learn-grid">
+            <div class="learn-item">
+                <div class="check-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                </div>
+                <p class="learn-text">Digital lessons covering foundational modeling theory and industry knowledge</p>
+            </div>
+            
+            <div class="learn-item">
+                <div class="check-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                </div>
+                <p class="learn-text">Comprehensive foundational studies in modeling basics and industry fundamentals</p>
+            </div>
+            
+            <div class="learn-item">
+                <div class="check-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                </div>
+                <p class="learn-text">Online support and guidance from experienced modeling instructors</p>
+            </div>
+            
+            <div class="learn-item">
+                <div class="check-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                </div>
+                <p class="learn-text">Self-paced learning modules that fit around your schedule and lifestyle</p>
+            </div>
+            
+            <div class="learn-item">
+                <div class="check-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                </div>
+                <p class="learn-text">Access to course materials from anywhere in the world with internet connection</p>
+            </div>
+            
+            <div class="learn-item">
+                <div class="check-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                </div>
+                <p class="learn-text">Digital certification upon successful completion of all course requirements</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Centered heading with big white text -->
+        <h4 class="trainers-header">Meet Our Expert Trainers</h4>
+        
+        <!-- Two cards in one row -->
+  <div class="trainercards">
+
+    <!-- Trainer Card 1 -->
+    <input type="radio" id="radio-1" name="radio-trainer" checked>
+    <article class="trainercard" style="--angle:4deg">
+      <img class="trainercard-img" src="{% static 'images/Hamid.png' %}" alt="">
+      <div class="trainercard-data">
+        <span class="trainercard-num">1/7</span>
+        <h2>Hamid</h2>
+        <p>Hamid is a leading Indian model and mentor, known for runway shows, major campaigns, and top TVCs. 
+With years in the industry, he now guides fresh talent while continuing to rule the fashion scene.</p>
+        <footer><label for="radio-7">&#10094;</label><label for="radio-2">&#10095;</label></footer>
+      </div>
+    </article>
+
+    <!-- Trainer Card 2 -->
+    <input type="radio" id="radio-2" name="radio-trainer">
+    <article class="trainercard" style="--angle:-8deg">
+      <img class="trainercard-img" src="{% static 'images/Thalia.png' %}" alt="">
+      <div class="trainercard-data">
+        <span class="trainercard-num">2/7</span>
+        <h2>Thalia </h2>
+        <p>Thalia is a Brazilian-born supermodel known for her fierce runway presence and striking global appeal. 
+With campaigns across the globe, she’s become a face that defines high fashion.</p>
+        <footer><label for="radio-1">&#10094;</label><label for="radio-3">&#10095;</label></footer>
+      </div>
+    </article>
+
+    <!-- Trainer Card 3 -->
+    <input type="radio" id="radio-3" name="radio-trainer">
+    <article class="trainercard" style="--angle:-7deg">
+      <img class="trainercard-img" src="{% static 'images/raghav.png' %}" alt="">
+      <div class="trainercard-data">
+        <span class="trainercard-num">3/7</span>
+        <h2>Raghav Fernandez</h2>
+        <p>Raghav Fernandez is a certified fitness coach, model, and actor with global training.
+ At NTA, he mentors students in grooming, confidence, and stage presence.
+ His sessions blend fitness with real-world runway and camera prep.</p>
+        <footer><label for="radio-2">&#10094;</label><label for="radio-4">&#10095;</label></footer>
+      </div>
+    </article>
+
+    <!-- Trainer Card 4 -->
+    <input type="radio" id="radio-4" name="radio-trainer">
+    <article class="trainercard" style="--angle:11deg">
+      <img class="trainercard-img" src="{% static 'images/Ketan.png' %}"alt="">
+      <div class="trainercard-data">
+        <span class="trainercard-num">4/7</span>
+        <h2>Ketan</h2>
+        <p>Keythan is a leading fashion show director, grooming expert, and mentor known for directing top runway shows and shaping fresh talent. On stage or behind the scenes, he’s dedicated to building confident performers and future fashion leaders.</p>
+        <footer><label for="radio-3">&#10094;</label><label for="radio-5">&#10095;</label></footer>
+      </div>
+    </article>
+
+    <!-- Trainer Card 5 -->
+    <input type="radio" id="radio-5" name="radio-trainer">
+    <article class="trainercard" style="--angle:13deg">
+      <img class="trainercard-img" src="{% static 'images/Monika.png' %}"alt="">
+      <div class="trainercard-data">
+        <span class="trainercard-num">5/7</span>
+        <h2>Monika Swami</h2>
+        <p>Monika Swami is a former boxer and accomplished runway model with 9+ years of experience, having walked for top designers like Michael Cinco, Rocky S, Rohit Bal, and Gaurav Gupta at major fashion weeks in India and abroad. She now also mentors and grooms aspiring models, shaping the next generation of talent.</p>
+        <footer><label for="radio-4">&#10094;</label><label for="radio-6">&#10095;</label></footer>
+      </div>
+    </article>
+
+    <!-- Trainer Card 6 -->
+    <input type="radio" id="radio-6" name="radio-trainer">
+    <article class="trainercard" style="--angle:-17deg">
+      <img class="trainercard-img" src="{% static 'images/Vikram.png' %}" alt="">
+      <div class="trainercard-data">
+        <span class="trainercard-num">6/7</span>
+        <h2>Vikram</h2>
+        <p>Vikram is a dynamic Image Consultant and Personal Shopper, known for transforming personal style through wardrobe makeovers and curated shopping. He also conducts grooming and self-presentation workshops for students across schools and universities.</p>
+        <footer><label for="radio-5">&#10094;</label><label for="radio-7">&#10095;</label></footer>
+      </div>
+    </article>
+
+    <!-- Trainer Card 7 -->
+    <input type="radio" id="radio-7" name="radio-trainer">
+    <article class="trainercard" style="--angle:20deg">
+      <img class="trainercard-img" src="{% static 'images/ARCHIE.png' %}"alt="">
+      <div class="trainercard-data">
+        <span class="trainercard-num">7/7</span>
+        <h2>Archie Madan</h2>
+        <p>Archie Madan is a photographer & cinematographer specializing in fashion and modeling shoots. Skilled in editing, retouching, and creative direction, she is the founder of ArchieClick with prior experience at Kaymatic and The Hair Club, currently pursuing B.Com while expanding her creative portfolio.</p>
+        <footer><label for="radio-6">&#10094;</label><label for="radio-1">&#10095;</label></footer>
+      </div>
+    </article>
+</div>
+        </div>
+    </div>
+
+    <!-- Business/Team Section -->
+    <div class="business-section">
+        <h2 class="business-title">Nextttone Talent<br>Academy</h2>
+        
+        <p class="business-subtitle">Our mission is to make modeling education accessible to everyone, everywhere. The team is excited to invite you to our flexible CONNECT Online Modeling Program which provides foundational knowledge and theory that you can access from anywhere in the world. Fill out the form to register and we'll contact you in less than 24h</p>
+          <a href="{% url 'course_registration'%}">
+            <button class="business-btn">Register Now !</button>
+        </a>
+    </div>
+
+    <script>
+    function playVideo() {
+        const container = document.getElementById('videoContainer');
+        
+        // Create YouTube iframe for NTA Connect promo video
+        const iframe = document.createElement('iframe');
+        iframe.width = '400';
+        iframe.height = '250';
+        iframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0'; // Replace with your actual video ID
+        iframe.frameBorder = '0';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        iframe.style.borderRadius = '8px';
+        
+        // Replace the overlay with the video
+        container.innerHTML = '';
+        container.appendChild(iframe);
+    }
+
+    function toggleMore() {
+        const moreContent = document.getElementById('moreContent');
+        const button = document.querySelector('.show-more-btn');
+        
+        if (moreContent.style.display === 'none') {
+            moreContent.style.display = 'block';
+            button.textContent = 'Show Less';
+        } else {
+            moreContent.style.display = 'none';
+            button.textContent = 'Show More';
+        }
+    }
+    </script>
+
+{% endblock %}

@@ -1,0 +1,654 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Join Us{% endblock %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    
+    :root {
+        --primary-black: #0a0a0a;
+        --secondary-black: #1a1a1a;
+        --pure-white: #ffffff;
+        --off-white: #fafafa;
+        --light-gray: #f5f5f5;
+        --medium-gray: #e5e5e5;
+        --dark-gray: #666666;
+        --accent: #000000;
+        --error: #dc2626;
+        --success: #16a34a;
+        --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
+        --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --shadow-heavy: 0 10px 40px rgba(0, 0, 0, 0.12);
+        --border-radius: 8px;
+        --border-radius-lg: 16px;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        color: var(--primary-black);
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+    }
+
+    .main-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        margin-top: 90px;
+    }
+
+    .application-wrapper {
+        max-width: 1200px;
+        width: 100%;
+        background: var(--pure-white);
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-heavy);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .header-section {
+        background: linear-gradient(135deg, var(--primary-black) 0%, var(--secondary-black) 100%);
+        color: var(--pure-white);
+        padding: 60px 40px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+  
+
+    .header-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .main-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin: 0 0 16px 0;
+        letter-spacing: -0.02em;
+        background: linear-gradient(45deg, #ffffff, #e5e5e5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+        font-weight: 400;
+        opacity: 0.9;
+        margin: 0 0 24px 0;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .brand-tag {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 8px 24px;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .content-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 0;
+        min-height: 600px;
+    }
+
+    .form-section {
+        padding: 50px 40px;
+        background: var(--pure-white);
+    }
+
+    .gallery-section {
+        background: linear-gradient(180deg, var(--light-gray) 0%, var(--off-white) 100%);
+        padding: 50px 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-left: 1px solid var(--medium-gray);
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 0 8px 0;
+        color: var(--primary-black);
+    }
+
+    .section-description {
+        color: var(--dark-gray);
+        margin: 0 0 32px 0;
+        font-size: 1rem;
+    }
+
+    .notice-card {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border: 1px solid var(--medium-gray);
+        border-left: 4px solid var(--primary-black);
+        padding: 20px;
+        border-radius: var(--border-radius);
+        margin-bottom: 32px;
+        font-size: 0.95rem;
+    }
+
+    .notice-card strong {
+        color: var(--primary-black);
+    }
+
+    .form-errors {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: var(--error);
+        padding: 16px 20px;
+        border-radius: var(--border-radius);
+        margin-bottom: 24px;
+        font-weight: 500;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-bottom: 32px;
+    }
+
+    .form-group {
+        margin-bottom: 24px;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 600;
+        color: var(--primary-black);
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+
+    /* Style all form inputs */
+    input[type="text"], 
+    input[type="number"], 
+    input[type="email"], 
+    select, 
+    textarea {
+        width: 100%;
+        padding: 14px 16px;
+        border: 2px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        background: var(--pure-white);
+        font-size: 1rem;
+        font-family: inherit;
+        color: var(--primary-black);
+        transition: var(--transition);
+    }
+
+    input[type="text"]:focus, 
+    input[type="number"]:focus, 
+    input[type="email"]:focus, 
+    select:focus, 
+    textarea:focus {
+        outline: none;
+        border-color: var(--primary-black);
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="text"]:disabled, 
+    input[type="number"]:disabled, 
+    input[type="email"]:disabled, 
+    select:disabled, 
+    textarea:disabled {
+        background: var(--light-gray);
+        color: var(--dark-gray);
+        cursor: not-allowed;
+    }
+
+    .file-upload-group {
+        margin-bottom: 24px;
+    }
+
+    .file-upload-label {
+        display: block;
+        font-weight: 600;
+        color: var(--primary-black);
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+
+    input[type="file"] {
+        width: 100%;
+        padding: 12px 8px;
+        border: 2px dashed var(--medium-gray);
+        border-radius: var(--border-radius);
+        background: var(--light-gray);
+        transition: var(--transition);
+        cursor: pointer;
+        font-family: inherit;
+    }
+
+    input[type="file"]:hover {
+        border-color: var(--primary-black);
+        background: var(--off-white);
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin: 32px 0;
+        padding: 20px;
+        background: var(--light-gray);
+        border-radius: var(--border-radius);
+    }
+
+    input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        accent-color: var(--primary-black);
+        margin-top: 2px;
+    }
+
+    .checkbox-label {
+        font-size: 0.95rem;
+        color: var(--primary-black);
+        line-height: 1.5;
+    }
+
+    .submit-button {
+        width: 100%;
+        background: var(--primary-black);
+        color: var(--pure-white);
+        border: none;
+        padding: 18px 32px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: var(--transition);
+        font-family: inherit;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .submit-button:hover {
+        background: var(--secondary-black);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+    }
+
+    .submit-button:active {
+        transform: translateY(0);
+    }
+
+    .gallery-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--primary-black);
+        margin: 0 0 8px 0;
+        text-align: center;
+    }
+
+    .gallery-subtitle {
+        color: var(--dark-gray);
+        text-align: center;
+        margin: 0 0 32px 0;
+        font-size: 0.95rem;
+    }
+
+    /* Updated polaroid grid for single row layout on desktop */
+    .polaroid-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .polaroid-item {
+        aspect-ratio: 3/4;
+        background: var(--pure-white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-light);
+        overflow: hidden;
+        transition: var(--transition);
+        border: 1px solid var(--medium-gray);
+        width: 100%;
+    }
+
+    .polaroid-item:hover {
+        transform: translateX(4px);
+        box-shadow: var(--shadow-medium);
+    }
+
+    .polaroid-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        background: var(--light-gray);
+    }
+
+    .field-errors {
+        color: var(--error);
+        font-size: 0.875rem;
+        margin-top: 6px;
+        display: block;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .gallery-section {
+            border-left: none;
+            border-top: 1px solid var(--medium-gray);
+        }
+        
+        .main-title {
+            font-size: 2.8rem;
+        }
+
+        /* Change to horizontal layout on tablet */
+        .polaroid-grid {
+            flex-direction: row;
+            max-width: 100%;
+            justify-content: center;
+        }
+
+        .polaroid-item {
+            max-width: 120px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .main-container {
+            padding: 20px 10px;
+        }
+        
+        .header-section {
+            padding: 40px 30px;
+        }
+        
+        .main-title {
+            font-size: 2.2rem;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+        }
+        
+        .form-section, .gallery-section {
+            padding: 30px 20px;
+        }
+        
+        .form-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        
+        .polaroid-grid {
+            flex-direction: row;
+            flex-wrap: wrap;
+            max-width: 300px;
+        }
+
+        .polaroid-item {
+            max-width: 140px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header-section {
+            padding: 30px 20px;
+        }
+        
+        .main-title {
+            font-size: 1.8rem;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+        }
+        
+        .form-section, .gallery-section {
+            padding: 20px 15px;
+        }
+        
+        .polaroid-grid {
+            flex-direction: column;
+            max-width: 200px;
+        }
+
+        .polaroid-item {
+            max-width: 100%;
+        }
+
+        .polaroid-item:hover {
+            transform: translateY(-4px);
+        }
+    }
+</style>
+
+<div class="main-container">
+    <div class="application-wrapper">
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="header-content">
+                <h1 class="main-title">Work With US !</h1>
+                <p class="subtitle">
+                    Start your modeling career with <strong>Nexttt Models</strong>. 
+                    Submit your application with recent portraits and join our elite talent roster.
+                </p>
+                <div class="brand-tag">Professional • Authentic • Elite</div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="content-grid">
+            <!-- Form Section -->
+            <div class="form-section">
+                <h2 class="section-title">Application Form</h2>
+                <p class="section-description">
+                    Complete all required fields below. Upload high-quality photos taken within the last 3 months.
+                </p>
+
+                <div class="notice-card">
+                    <strong>Security Notice:</strong> We only scout through our official Instagram account. 
+                    Be cautious of unauthorized contacts claiming to represent Nexttt Models.
+                </div>
+
+                {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    
+                    <!-- Personal Information Grid -->
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                                <span class="field-errors">{{ form.name.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.age.id_for_label }}">{{ form.age.label }}</label>
+                            {{ form.age }}
+                            {% if form.age.errors %}
+                                <span class="field-errors">{{ form.age.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+                            {{ form.phone }}
+                            {% if form.phone.errors %}
+                                <span class="field-errors">{{ form.phone.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <span class="field-errors">{{ form.email.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.city.id_for_label }}">{{ form.city.label }}</label>
+                            {{ form.city }}
+                            {% if form.city.errors %}
+                                <span class="field-errors">{{ form.city.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.country.id_for_label }}">{{ form.country.label }}</label>
+                            {{ form.country }}
+                            {% if form.country.errors %}
+                                <span class="field-errors">{{ form.country.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.height.id_for_label }}">{{ form.height.label }}</label>
+                            {{ form.height }}
+                            {% if form.height.errors %}
+                                <span class="field-errors">{{ form.height.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.bust_chest.id_for_label }}">{{ form.bust_chest.label }}</label>
+                            {{ form.bust_chest }}
+                            {% if form.bust_chest.errors %}
+                                <span class="field-errors">{{ form.bust_chest.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.waist.id_for_label }}">{{ form.waist.label }}</label>
+                            {{ form.waist }}
+                            {% if form.waist.errors %}
+                                <span class="field-errors">{{ form.waist.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.hips.id_for_label }}">{{ form.hips.label }}</label>
+                            {{ form.hips }}
+                            {% if form.hips.errors %}
+                                <span class="field-errors">{{ form.hips.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.shoe.id_for_label }}">{{ form.shoe.label }}</label>
+                            {{ form.shoe }}
+                            {% if form.shoe.errors %}
+                                <span class="field-errors">{{ form.shoe.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.instagram.id_for_label }}">{{ form.instagram.label }}</label>
+                            {{ form.instagram }}
+                            {% if form.instagram.errors %}
+                                <span class="field-errors">{{ form.instagram.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Photo Upload Section -->
+                    <div class="file-upload-group">
+                        <label class="file-upload-label" for="{{ form.photo1.id_for_label }}">Photo #1 (Required)</label>
+                        {{ form.photo1 }}
+                        {% if form.photo1.errors %}
+                            <span class="field-errors">{{ form.photo1.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="file-upload-group">
+                        <label class="file-upload-label" for="{{ form.photo2.id_for_label }}">Photo #2 (Required)</label>
+                        {{ form.photo2 }}
+                        {% if form.photo2.errors %}
+                            <span class="field-errors">{{ form.photo2.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="file-upload-group">
+                        <label class="file-upload-label" for="{{ form.photo3.id_for_label }}">Photo #3 (Optional)</label>
+                        {{ form.photo3 }}
+                        {% if form.photo3.errors %}
+                            <span class="field-errors">{{ form.photo3.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Privacy Policy Checkbox -->
+                    <div class="checkbox-group">
+                        {{ form.data_policy }}
+                        <label class="checkbox-label" for="{{ form.data_policy.id_for_label }}">
+                            I accept the privacy policy and terms of service. I understand that my personal information will be processed according to industry standards.
+                        </label>
+                        {% if form.data_policy.errors %}
+                            <span class="field-errors">{{ form.data_policy.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="submit-button">
+                        Submit Application
+                    </button>
+                </form>
+            </div>
+
+            <!-- Gallery Section -->
+            <div class="gallery-section">
+                <h3 class="gallery-title">Photo Examples</h3>
+                <p class="gallery-subtitle">Professional reference photos for your application</p>
+                
+                <div class="polaroid-grid">
+                    <div class="polaroid-item">
+                        <img src="{% static 'images/poliroids1.jpeg' %}" alt="Professional headshot example" class="polaroid-image">
+                    </div>
+                    <div class="polaroid-item">
+                        <img src="{% static 'images/poliroids2.jpeg' %}" alt="Full body shot example" class="polaroid-image">
+                    </div>
+                    <div class="polaroid-item">
+                        <img src="{% static 'images/poliroids3.jpeg' %}" alt="Profile angle example" class="polaroid-image">
+                    </div>
+                    <div class="polaroid-item">
+                        <img src="{% static 'images/poliroids4.jpeg' %}"alt="Natural lighting example" class="polaroid-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

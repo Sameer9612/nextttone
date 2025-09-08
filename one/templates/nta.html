@@ -1,0 +1,1423 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Nextttone Talent Academy{% endblock %}
+{% block content %}
+<style>
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(to bottom right, rgb(0, 0, 0), rgb(0, 0, 0)), url('..ages/header-background.jpg') center center no-repeat;
+    background-size: cover;
+      color: #000000;
+    }
+    .main-offer {
+      text-align: center;
+      margin-top: 50px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+         color: #ffffff;
+    }
+    .expired {
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.7;
+      font-weight: 600;
+    }
+    .title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      margin-top: 100px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      margin: 0 15px 30px 15px;
+      line-height: 1.5;
+      margin-top: 20px;
+    }
+    .buttons {
+      margin-bottom: 30px;
+    }
+    .btn {
+      padding: 15px 35px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      margin: 0 10px;
+      cursor: pointer;
+      font-weight: 700; 
+     transition: background-color  color 0.3s ease;
+       color: #ffffff;
+    }
+    .btn-register {
+     background-color: transparent;
+      color: #ffd000ff;
+      border: 2px solid #ffd000ff;
+    }
+    .btn-register:hover {
+      background-color: #ffffff;
+      color: #000000;
+    }
+    .btn-discover {
+      background-color: transparent;
+      color: #ffffff;
+      border: 2px solid #ffffff;
+    }
+    .btn-discover:hover {
+      background-color: #ffffff;
+      color: #222;
+      border-color: #000000;
+    }
+
+    .slider {
+      max-width: 700px;
+      margin: 40px auto 0 auto;
+      border-radius: 14px;
+      overflow: visible; /* allow arrows outside */
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.22);
+      position: relative;
+      z-index: 10; /* above form */
+      margin-bottom: -80px; /* overlap form */
+    }
+    .slick-list {
+      border-radius: 14px;
+    }
+    .slick-prev,
+    .slick-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      width: 40px;
+      height: 40px;
+      /* background: rgba(0, 0, 0, 0.45); */
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .slick-prev:hover,
+    .slick-next:hover {
+      background: rgba(0, 0, 0, 0.75);
+    }
+    .slick-prev {
+      left: -50px; /* outside left */
+    }
+    .slick-next {
+      right: -50px; /* outside right */
+    }
+    .slick-prev:before,
+    .slick-next:before {
+      color: #fff;
+      font-size: 24px;
+      opacity: 1;
+    }
+
+    /* TESTIMONIALS SLIDER STYLES */
+    .testimonials-section {
+      background: #000000;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .testimonials-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 50px;
+      line-height: 1.3;
+    }
+
+    .testimonials-slider {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .testimonial-slide {
+      padding: 0 20px;
+      outline: none;
+    }
+
+    .testimonial-content {
+      background: rgb(255, 255, 255);
+      border-radius: 15px;
+      padding: 40px 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      text-align: left;
+      min-height: 200px;
+    }
+
+    .testimonial-avatar {
+      flex-shrink: 0;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid #000000;
+    }
+
+    .testimonial-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .testimonial-text-content {
+      flex: 1;
+    }
+
+    .testimonial-text {
+      font-size: 1rem;
+      color: #000000;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      font-weight: 700;
+      color: #000000;
+      font-size: 0.95rem;
+    }
+
+    .testimonial-role {
+      color: #ffffff;
+      font-size: 0.9rem;
+    }
+
+    /* Custom Slick Arrows for Testimonials */
+    .testimonials-slider .slick-prev,
+    .testimonials-slider .slick-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 253, 253, 0.1);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .testimonials-slider .slick-prev:hover,
+    .testimonials-slider .slick-next:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .testimonials-slider .slick-prev {
+      left: -25px;
+    }
+
+    .testimonials-slider .slick-next {
+      right: -25px;
+    }
+
+    .testimonials-slider .slick-prev:before,
+    .testimonials-slider .slick-next:before {
+      color: #f00e0e;
+      font-size: 20px;
+      opacity: 1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .testimonial-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 20px;
+        gap: 20px;
+      }
+
+      .testimonial-avatar {
+        width: 70px;
+        height: 70px;
+      }
+
+      .testimonials-slider .slick-prev {
+        left: 10px;
+      }
+
+      .testimonials-slider .slick-next {
+        right: 10px;
+      }
+
+      .testimonials-title {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+      }
+    }
+
+    .form-outer {
+      position: relative;
+      background-color: #222222;
+      color: #ffffff;
+      padding: 140px 0 60px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    .form-left, .form-right {
+      box-sizing: border-box;
+      padding: 0 30px;
+    }
+    .form-left {
+      flex: 1 1 340px;
+      max-width: 440px;
+      min-width: 260px;
+    }
+    .form-title {
+      font-weight: 700;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+    }
+    .form-description {
+      color: #ffffff;
+      margin-bottom: 18px;
+      font-size: 1rem;
+    }
+    .form-bullets {
+      margin: 0 0 16px 1em;
+      padding: 0;
+      color: #ffffff;
+    }
+    .form-bullets li {
+      margin-bottom: 6px;
+      font-size: 1rem;
+      line-height: 1.4;
+      color: #fff9f9;
+    }
+    .form-bullets b {
+      color: #f8f8f8;
+    }
+    .form-right {
+      flex: 1 1 320px;
+      max-width: 380px;
+      min-width: 240px;
+    }
+    form input,
+    form button {
+      width: 100%;
+      margin: 0 0 14px 0;
+      padding: 15px 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      box-sizing: border-box;
+      font-family: 'Open Sans', sans-serif;
+    }
+    form input::placeholder {
+      color: #999;
+    }
+    .checkbox-label {
+      font-size: 0.95rem;
+      color: #444;
+      margin-bottom: 14px;
+      display: inline-block;
+      vertical-align: middle;
+      font-weight: 400;
+      user-select: none;
+    }
+    form button {
+      background-color: transparent;
+      color: #ffffff;
+      border: 2px solid #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      border-radius: 30px;
+      letter-spacing: 1px;
+    }
+    form button:hover {
+      background-color: #222;
+      color: #ffc76a;
+    }
+
+    @media (max-width: 970px) {
+      .form-outer {
+        flex-direction: column;
+        padding: 80px 0 40px;
+      }
+      .form-left, .form-right {
+        max-width: 550px;
+        width: 96%;
+        margin: 0 auto;
+        padding: 0;
+      }
+      .form-left {
+        margin-bottom: 35px;
+      }
+    }
+    @media (max-width: 670px) {
+      .main-offer, .slider, .form-outer, .form-left, .form-right {
+        width: 98% !important;
+        padding-left: 2vw;
+        padding-right: 2vw;
+        margin-top: 15px;
+      }
+      .slick-prev {
+        left: 5px !important;
+      }
+      .slick-next {
+        right: 5px !important;
+      }
+    }
+
+/* This pen */
+body {
+    /* font-family: "Baloo 2", cursive; */
+    font-size: 16px;
+    color: #ffffff;
+    text-rendering: optimizeLegibility;
+    font-weight: initial;
+}
+
+.dark {
+    background: #110f16;
+}
+
+.light {
+    background: #f3f5f7;
+}
+
+a, a:hover {
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+#pageHeaderTitle {
+    margin: 2rem 0;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+/* Cards */
+.postcard {
+  flex-wrap: wrap;
+  display: flex;
+  
+  box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
+  border-radius: 10px;
+  margin: 0 0 2rem 0;
+  overflow: hidden;
+  position: relative;
+  color: #ffffff;
+
+    &.dark {
+        background-color: #18151f;
+    }
+    &.light {
+        background-color: #e1e5ea;
+    }
+    
+    .t-dark {
+        color: #18151f;
+    }
+    
+  a {
+    color: inherit;
+  }
+    
+    h1, .h1 {
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        line-height: 1.2;
+        
+    }
+    
+    .small {
+        font-size: 80%;
+    }
+
+  .postcard__title {
+    font-size: 1.75rem;
+  }
+
+  .postcard__img {
+    max-height: 220px;
+    width: 100%;
+    object-fit: cover;
+    position: relative;
+  }
+
+  .postcard__img_link {
+    display: contents;
+  }
+
+  .postcard__bar {
+    width: 50px;
+    height: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #424242;
+    transition: width 0.2s ease;
+  }
+
+  .postcard__text {
+    padding: 1.5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .postcard__preview-txt {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: justify;
+    height: 100%;
+  }
+
+  .postcard__tagbox {
+    display: flex;
+    flex-flow: row wrap;
+    font-size: 14px;
+    margin: 20px 0 0 0;
+        padding: 0;
+    justify-content: center;
+
+    .tag__item {
+      display: inline-block;
+      background: rgba(83, 83, 83, 0.4);
+      border-radius: 3px;
+      padding: 2.5px 10px;
+      margin: 0 5px 5px 0;
+      cursor: default;
+      user-select: none;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background: rgba(83, 83, 83, 0.8);
+      }
+    }
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(-70deg, #424242, transparent 50%);
+    opacity: 1;
+    border-radius: 10px;
+  }
+
+  &:hover .postcard__bar {
+    width: 100px;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .postcard {
+    flex-wrap: inherit;
+
+    .postcard__title {
+      font-size: 2rem;
+    }
+
+    .postcard__tagbox {
+      justify-content: start;
+    }
+
+    .postcard__img {
+      max-width: 400px;
+      max-height: 100%;
+      transition: transform 0.3s ease;
+    }
+
+    .postcard__text {
+      padding: 3rem;
+      width: 100%;
+    }
+
+    .media.postcard__text:before {
+      content: "";
+      position: absolute;
+      display: block;
+      background: #18151f;
+      top: -20%;
+      height: 130%;
+      width: 55px;
+    }
+
+    &:hover .postcard__img {
+      transform: scale(1.1);
+    }
+
+    &:nth-child(2n+1) {
+      flex-direction: row;
+    }
+
+    &:nth-child(2n+0) {
+      flex-direction: row-reverse;
+    }
+
+    &:nth-child(2n+1) .postcard__text::before {
+      left: -12px !important;
+      transform: rotate(4deg);
+    }
+
+    &:nth-child(2n+0) .postcard__text::before {
+      right: -12px !important;
+      transform: rotate(-4deg);
+    }
+  }
+}
+@media screen and (min-width: 1024px){
+        .postcard__text {
+      padding: 2rem 3.5rem;
+    }
+        
+        .postcard__text:before {
+      content: "";
+      position: absolute;
+      display: block;
+      
+      top: -20%;
+      height: 130%;
+      width: 55px;
+    }
+    
+  .postcard.dark {
+        .postcard__text:before {
+            background: #18151f;
+        }
+  }
+    .postcard.light {
+        .postcard__text:before {
+            background: #e1e5ea;
+        }
+  }
+}
+
+@media (max-width: 768px) {
+  .trainer-section {
+    flex-direction: column !important;
+    padding: 20px 16px !important;
+    gap: 24px !important;
+  }
+  .trainer-image {
+    min-width: auto !important;
+    width: 100% !important;
+    margin-bottom: 0 !important;
+  }
+  .trainer-content {
+    min-width: auto !important;
+    width: 100% !important;
+  }
+  .trainer-title {
+    font-size: 1.5rem !important;
+  }
+  .trainer-section img {
+    max-width: 100% !important;
+    {% comment %} height: auto !important; {% endcomment %}
+  }
+}
+
+@media (max-width: 480px) {
+  .trainer-container {
+    padding: 20px 0 !important;
+    gap: 30px !important;
+  }
+  .trainer-section {
+    padding: 20px 16px !important;
+    gap: 20px !important;
+  }
+  .trainer-title {
+    font-size: 1.3rem !important;
+    margin-bottom: 0px !important;
+  }
+  .trainer-text {
+    font-size: 1rem !important;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   VIDEO PRESENTATION BLOCK – FINAL CSS
+   (Drop this anywhere after Bootstrap's stylesheet)
+──────────────────────────────────────────────────────────── */
+/* ────────────────────────────────────────────────────────────
+   VIDEO PRESENTATION BLOCK – FINAL CSS  (complete)
+──────────────────────────────────────────────────────────── */
+
+.video-section{
+  background:#ffffff;
+  text-align:center;
+  padding:3.5rem 1rem;
+}
+
+/* ── Thumbnail container ── */
+.video-section .thumb-wrapper{
+  position:relative;
+  display:inline-block;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 6px 20px rgba(0,0,0,.12);
+  max-width:720px;
+  width:100%;
+}
+
+/*  ▼▼▼  NEW –- makes the thumbnail responsive  ▼▼▼  */
+.video-section .thumb-wrapper img{ 
+  width:100%;
+  height:auto;
+  display:block;
+}
+/*  ▲▲▲  NEW –- makes the thumbnail responsive  ▲▲▲  */
+
+/* ── Play button ── */
+.btn-play{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:62px;height:62px;
+  border:none;border-radius:50%;
+  background:#ff0000;
+  display:flex;justify-content:center;align-items:center;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);
+  transition:background .25s;
+}
+.btn-play:hover{background:#000000;}
+.btn-play svg{width:22px;height:26px;fill:#fff;}
+
+/* ── Modal ── */
+#videoModal .modal-content{background:transparent;border:none;}
+#videoModal .btn-close{filter:invert(1);}
+
+/* ─────────────────────────  SMALL SCREENS  ───────────────── */
+@media (max-width:575.98px){
+  .video-section{padding:2.5rem 1rem;}
+  .video-section h2{font-size:1.35rem;}
+
+  .btn-play{width:48px;height:48px;}
+  .btn-play svg{width:15px;height:18px;}
+}
+
+
+
+/* EVENT ANNOUNCEMENT SECTION */
+  .event-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+                        url("{% static  'images/about4.jpeg' %}") center center no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            padding: 80px 20px;
+            color: #ffffff;
+            text-align: center;
+            position: relative;
+        }
+
+.event-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 15px;
+  padding: 60px 40px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.733);
+}
+
+.event-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.event-date {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0;
+  line-height: 1.1;
+}
+
+.event-location {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 30px 0;
+  line-height: 1.1;
+}
+
+.event-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #ffffff;
+  margin-bottom: 40px;
+  opacity: 0.95;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+}
+
+.event-register-btn {
+  background-color: #ffdb0c;
+  color: #000000;
+  padding: 18px 45px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(255, 199, 106, 0.3);
+}
+
+.event-register-btn:hover {
+  background-color: #000000ff;
+  color: #ffdb0c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .event-section {
+    padding: 60px 15px;
+  }
+  
+  .event-container {
+    padding: 40px 25px;
+  }
+  
+  .event-date,
+  .event-location {
+    font-size: 2.2rem;
+  }
+  
+  .event-description {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+  
+  .event-register-btn {
+    padding: 15px 35px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-date,
+  .event-location {
+    font-size: 1.8rem;
+  }
+  
+  .event-description {
+    font-size: 0.95rem;
+  }
+}
+
+
+
+
+
+
+  </style>
+</head>
+<body>
+  <section class="main-offer">
+  <h1 class="title">Nextttone Talent Academy</h1>
+
+  <p class="subtitle">
+    Transform your modeling dreams into reality with professional training. 
+    Learn runway techniques, camera presence, and industry insights to launch your modeling career.
+  </p>
+
+   <div class="buttons">
+    <a href="{% url 'course_registration'%}">
+    <button class="btn btn-register">REGISTER</button>
+    </a>
+    
+      
+  </div> 
+</section>
+
+  <section class="slider mb-5">
+    <div>
+      <img src="{% static 'images/web 1.jpg' %}" alt="Training Slide 1" style="width:100%; display:block; border-radius: 14px;" />
+    </div>
+    <div>
+      <img src="{% static 'images/web 2.jpg' %}" alt="Training Slide 2" style="width:100%; display:block; border-radius: 14px;" />
+    </div>
+    <div>
+      <img src="{% static 'images/web 3.jpg' %}" alt="Training Slide 3" style="width:100%; display:block; border-radius: 14px;" />
+    </div>
+  </section>
+
+  
+{% comment %} 
+<section class="form-outer">
+    <div class="form-left">
+        <h2 class="form-title">Register Using The Form</h2>
+        <div class="form-description">
+            It's easy to register for the course, just fill out the form and click submit.
+            Then you will be registered for one of the best Modeling Course courses in the industry.
+        </div>
+        <ul class="form-bullets">
+            <li><b>Your information</b> is required to complete the registration</li>
+            <li><b>It's safe with us</b> and will not be used for marketing</li>
+            <li><b>You will receive</b> a confirmation email in less than 24h</li>
+        </ul>
+        <button 
+    style="
+        background-color:  #ffdb0c;
+        border: none;
+        color: black;
+        padding: 14px 24px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;"
+    onclick="window.location.href='/registercourse/'"
+    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0px 6px 14px rgba(255, 255, 255, 0.3)';"
+    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0px 4px 10px rgba(0,0,0,0.2)'"
+>
+    Register Now
+</button>
+
+    </div>
+    <div class="form-right mt-5">
+<a href="#">
+    <video class="img-fluid mb-4" 
+           style="max-width: 100%; height: auto;" 
+           autoplay 
+           muted 
+           loop 
+           playsinline>
+        <source src="{% static 'images/ntavid.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</a>
+
+       
+           
+                
+
+            </form>
+        </div>
+    </div>
+</section> {% endcomment %}
+
+
+<section class="dark mt-5">
+    <div class="container py-4">
+        <h2 class="h1 text-center" id="pageHeaderTitle">Our Courses</h2>
+
+        <article class="postcard dark blue">
+            <a class="postcard__img_link" href="{% url 'ntaessence' %}">
+                <img class="postcard__img" src="{% static 'images/NTAESSENCE.png' %}" alt="Image Title" />
+            </a>
+            <div class="postcard__text">
+                <h1 class="postcard__title blue"><a href="{% url 'ntaessence' %}"> NTA ESSENCE</a></h1>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">NTA ESSENCE is your gateway to the modeling industry. This comprehensive 1-month foundational training program is designed specifically for beginners who want to develop essential modeling skills. Our course covers all the fundamentals including posing techniques, runway walking, camera presence, and personal branding strategies. You'll complete Module 1 of our professional modeling curriculum and graduate with confidence, skills, and industry-ready materials.</div>
+                <ul class="postcard__tagbox">
+                    <li class="tag__item play blue">
+                        <a href="{% url 'ntaessence' %}"><i class=" mr-2"></i>Click here For More Details</a>
+                    </li>
+                </ul>
+            </div>
+
+        </article>
+        <article class="postcard dark red">
+            <a class="postcard__img_link" href="{% url 'ntavision' %}">
+                <img class="postcard__img" src="{% static 'images/NTAvision.png' %}" alt="Image Title" />    
+            </a>
+            <div class="postcard__text">
+                <h1 class="postcard__title red"><a href="{% url 'ntavision' %}">NTA VISION</a></h1>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">NTA VISION is our comprehensive 2-month intermediate modeling training program that builds upon foundational skills with advanced techniques. This course includes all features from our ESSENCE program plus professional photography training, visagism analysis, casting simulations, and acting for camera. You'll complete Modules 1 and 2 of our professional modeling curriculum, preparing you for advanced industry opportunities.</div>
+                <ul class="postcard__tagbox">
+                    <li class="tag__item play red">
+                        <a href="{% url 'ntavision' %}"><i class=" mr-2"></i>Click here For More Details</a>
+                    </li>
+                </ul>
+            </div>
+
+        </article>
+        <article class="postcard dark green">
+            <a class="postcard__img_link" href="{% url 'ntacouture' %}">
+                <img class="postcard__img" src="{% static 'images/NTACOUTURE.png' %}"alt="Image Title" />
+            </a>
+            <div class="postcard__text">
+                <h1 class="postcard__title green"><a href="{% url 'ntacouture' %}">NTA COUTURE</a></h1>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">NTA COUTURE is our most comprehensive 3-month professional modeling training program that covers all modules of our curriculum. This complete course includes full portfolio development, professional comp card production, and comprehensive career planning with international orientation. Top-performing students receive the prestigious NTA Quality Seal, marking them as industry-ready professionals.</div>
+                <ul class="postcard__tagbox">
+                    <li class="tag__item play green">
+                        <a href="{% url 'ntacouture' %}"><i class=" mr-2"></i>Click here For More Details</a>
+                    </li>
+                </ul>
+            </div>
+        </article>
+
+        <article class="postcard dark yellow">
+            <a class="postcard__img_link" href="{% url 'ntaconnect' %}">
+                <img class="postcard__img" src="{% static 'images/ntaconnect.png' %}" alt="Image Title" />
+            </a>
+            <div class="postcard__text">
+                <h1 class="postcard__title yellow"><a href="{% url 'ntaconnect' %}">NTA CONNECT</a></h1>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">NTA CONNECT is our flexible self-paced online modeling program designed for students who need maximum flexibility or want to access our training from anywhere in the world. This digital program covers the online version of Module 1 with comprehensive theory-based lessons and foundational studies. Perfect for busy schedules or remote learning needs.</div>
+                <ul class="postcard__tagbox">
+                    <li class="tag__item play yellow">
+                    <a href="{% url 'ntaconnect' %}"><i class=" mr-2"></i>Click here For More Details</a>
+                    </li>
+                </ul>
+            </div>
+        </article>
+    </div>
+</section>
+
+
+
+<div style="width: 100%; padding: 20px 0; background: #ffffff; display: flex; justify-content: center;">
+  <div style="max-width: 900px; width: 100%; padding: 24px 16px; background: #ffffff; border-radius: 10px; box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);">
+    <div style="font-size: clamp(1.5rem, 4vw, 2.3rem); font-weight: 700; text-align: center; margin-bottom: 24px; line-height: 1.2; color: #222; padding: 0 10px;">
+      What Will You Learn In Our Modeling<br class="desktop-break">Focused Training Course
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+      <div>
+        <div style="display: flex; align-items: flex-start; margin-bottom: 24px;">
+          <div style="min-width: 44px; min-height: 44px; background: #000000; color: #ffffff; border-radius: 50%; text-align: center; font-size: 1.6rem; font-weight: bold; display: flex; align-items: center; justify-content: center; margin-right: 18px; margin-top: 3px; flex-shrink: 0;">1</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.1rem); margin-bottom: 4px; color: #222;">Posing Techniques for Beginners</div>
+            <div style="font-size: clamp(0.85rem, 2vw, 0.95rem); color: #5d5d5d; line-height: 1.4;">Learn the fundamental posing skills to enhance your presence in front of the camera with confidence.</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; margin-bottom: 24px;">
+          <div style="min-width: 44px; min-height: 44px; background: #000000; color: #ffffff; border-radius: 50%; text-align: center; font-size: 1.6rem; font-weight: bold; display: flex; align-items: center; justify-content: center; margin-right: 18px; margin-top: 3px; flex-shrink: 0;">2</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.1rem); margin-bottom: 4px; color: #222;">Runway Walking Essentials</div>
+            <div style="font-size: clamp(0.85rem, 2vw, 0.95rem); color: #5d5d5d; line-height: 1.4;">Master the catwalk walk, posture, and turns to shine on the runway during fashion shows.</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; margin-bottom: 24px;">
+          <div style="min-width: 44px; min-height: 44px; background: #000000; color: #ffffff; border-radius: 50%; text-align: center; font-size: 1.6rem; font-weight: bold; display: flex; align-items: center; justify-content: center; margin-right: 18px; margin-top: 3px; flex-shrink: 0;">3</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.1rem); margin-bottom: 4px; color: #222;">Makeup and Skin Care for Models</div>
+            <div style="font-size: clamp(0.85rem, 2vw, 0.95rem); color: #5d5d5d; line-height: 1.4;">Understand essential skincare routines and makeup application that enhance your natural beauty for shoots.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="display: flex; align-items: flex-start; margin-bottom: 24px;">
+          <div style="min-width: 44px; min-height: 44px; background: #000000; color: #ffffff; border-radius: 50%; text-align: center; font-size: 1.6rem; font-weight: bold; display: flex; align-items: center; justify-content: center; margin-right: 18px; margin-top: 3px; flex-shrink: 0;">4</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.1rem); margin-bottom: 4px; color: #222;">Building a Professional Portfolio</div>
+            <div style="font-size: clamp(0.85rem, 2vw, 0.95rem); color: #5d5d5d; line-height: 1.4;">Learn how to create a compelling modeling portfolio that showcases your versatility to agencies and clients.</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; margin-bottom: 24px;">
+          <div style="min-width: 44px; min-height: 44px; background: #000000; color: #ffffff; border-radius: 50%; text-align: center; font-size: 1.6rem; font-weight: bold; display: flex; align-items: center; justify-content: center; margin-right: 18px; margin-top: 3px; flex-shrink: 0;">5</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.1rem); margin-bottom: 4px; color: #222;">Modeling Industry Insights</div>
+            <div style="font-size: clamp(0.85rem, 2vw, 0.95rem); color: #5d5d5d; line-height: 1.4;">Get to know the fashion and modeling industry, including agents, casting, contracts</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; margin-bottom: 24px;">
+          <div style="min-width: 44px; min-height: 44px; background: #000000; color: #ffffff; border-radius: 50%; text-align: center; font-size: 1.6rem; font-weight: bold; display: flex; align-items: center; justify-content: center; margin-right: 18px; margin-top: 3px; flex-shrink: 0;">6</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; font-size: clamp(1rem, 2.5vw, 1.1rem); margin-bottom: 4px; color: #222;">Health and Fitness for Models</div>
+            <div style="font-size: clamp(0.85rem, 2vw, 0.95rem); color: #5d5d5d; line-height: 1.4;">Learn about maintaining your physical and mental health to meet the demands of a modeling career.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="trainer-container" style="
+  width: 100%;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+        /* Reduced space between trainers */
+  box-sizing: border-box;">
+
+  <div style="font-size: 2.3rem; font-weight: 700; text-align: center; margin-bottom: 10px; color: #222;">
+    Meet Trainers Of Our Modeling Academy
+  </div>
+
+  <!-- Trainer 1 -->
+  <div class="trainer-section" style="
+    width: 100%; max-width: 1200px;
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 32px; padding: 25px 20px;
+    border-radius: 12px; background: #fff; box-sizing: border-box;">
+    
+    <div class="trainer-image" style="flex: 1 1 350px; max-width: 450px;">
+  <img src="{% static 'images/raghav.png' %}" alt="Trainer Garry" style="width: 100%; height: 500px; border-radius: 10px; object-fit: cover; aspect-ratio: 4/3;">
+
+    </div>
+
+    <div class="trainer-content" style="flex: 2 1 200px; min-width: 280px;">
+      <div class="trainer-title" style="font-size: 1.8rem; font-weight: 700; color: #232323; margin-bottom: 12px; font-family: 'Montserrat', Arial, sans-serif;">
+        I'm Raghav 
+      </div>
+      <div class="trainer-text" style="font-size: 1rem; color: #444; margin-bottom: 10px;  line-height: 1.5;">
+       Raghav Fernandez is a certified fitness coach, model, and actor with global training.
+ At NTA, he mentors students in grooming, confidence, and stage presence.
+      </div>
+      <div class="trainer-text" style="font-size: 1rem; color: #444; line-height: 1.5;">
+        His sessions blend fitness with real-world runway and camera prep.
+      </div>
+    </div>
+  </div>
+
+  <!-- Trainer 2 -->
+  <div class="trainer-section" style="width:100%; max-width:1200px; display:flex; align-items:center; flex-wrap:wrap; gap:32px; padding:25px 20px; border-radius:12px; background:#fff; box-sizing:border-box;">
+    <div class="trainer-image" style="flex:1 1 350px; max-width:450px;">
+      <img src="{% static 'images/ketan.png' %}" alt="Coach Alex" style="width:100%; border-radius:10px; object-fit:cover; height: 450px; aspect-ratio:4/3;">
+    </div>
+    <div class="trainer-content" style="flex:2 1 200px; min-width:280px;">
+      <div class="trainer-title" style="font-size:1.8rem; font-weight:700; color:#232323; margin-bottom:12px; font-family:'Montserrat', Arial, sans-serif;">
+        I'm Keythan
+      </div>
+      <div class="trainer-text" style="font-size:1rem; color:#444; margin-bottom:10px; line-height:1.5;">
+        Keythan is a leading fashion show director, grooming expert, and mentor known for directing top runway shows and shaping fresh talent.
+      <div class="trainer-text" style="font-size:1rem; color:#444; line-height:1.5;">
+        On stage or behind the scenes, he’s dedicated to building confident performers and future fashion leaders.
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trainer 3 -->
+   <div class="trainer-section" style="width:100%; max-width:1200px; display:flex; align-items:center; flex-wrap:wrap; gap:32px; padding:25px 20px; border-radius:12px; background:#fff; box-sizing:border-box;">
+    <div class="trainer-image" style="flex:1 1 350px; max-width:450px;">
+      <img src="{% static 'images/thalia.png' %}" alt="Coach Alex" style="width:100%; border-radius:10px; object-fit:cover;  height: 450px; aspect-ratio:4/3;">
+    </div>
+    <div class="trainer-content" style="flex:2 1 200px; min-width:280px;">
+      <div class="trainer-title" style="font-size:1.8rem; font-weight:700; color:#232323; margin-bottom:12px; font-family:'Montserrat', Arial, sans-serif;">
+        I'm Thalia
+      </div>
+      <div class="trainer-text" style="font-size:1rem; color:#444; margin-bottom:10px; line-height:1.5;">
+        Thalia is a Brazilian-born supermodel known for her fierce runway presence and striking global appeal. 
+With campaigns across the globe, 
+      </div>
+      <div class="trainer-text" style="font-size:1rem; color:#444; line-height:1.5;">
+       She’s become a face that defines high fashion.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Trainer 4 -->
+  <div class="trainer-section" style="width:100%; max-width:1200px; display:flex; align-items:center; flex-wrap:wrap; gap:32px; padding:25px 20px; border-radius:12px; background:#fff; box-sizing:border-box;">
+    <div class="trainer-image" style="flex:1 1 350px; max-width:450px;">
+      <img src="{% static 'images/ARCHIE.png' %}" alt="Coach Alex" style="width:100%; border-radius:10px; object-fit:cover; height: 450px; aspect-ratio:4/3;">
+    </div>
+    <div class="trainer-content" style="flex:2 1 200px; min-width:280px;">
+      <div class="trainer-title" style="font-size:1.8rem; font-weight:700; color:#232323; margin-bottom:12px; font-family:'Montserrat', Arial, sans-serif;">
+        I'm Archie Madan
+      </div>
+      <div class="trainer-text" style="font-size:1rem; color:#444; margin-bottom:10px; line-height:1.5;">
+       Archie Madan is a photographer & cinematographer specializing in fashion and modeling shoots. Skilled in editing, retouching, and creative direction, she is the founder of ArchieClick with prior experience at Kaymatic and The Hair Club, currently pursuing B.Com while expanding her creative portfolio.
+      </div>
+      <div class="trainer-text" style="font-size:1rem; color:#444; line-height:1.5;">
+        Motivating and guiding clients to be their best selves is my passion and full-time commitment.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Trainer 5 -->
+ <div class="trainer-section" style="width:100%; max-width:1200px; display:flex; align-items:center; flex-wrap:wrap; gap:32px; padding:25px 20px; border-radius:12px; background:#fff; box-sizing:border-box;">
+    <div class="trainer-image" style="flex:1 1 350px; max-width:450px;">
+      <img src="{% static 'images/Monika.png' %}" alt="Coach Alex" style="width:100%; border-radius:10px; object-fit:cover; height: 450px; aspect-ratio:4/3;">
+    </div>
+    <div class="trainer-content" style="flex:2 1 200px; min-width:280px;">
+      <div class="trainer-title" style="font-size:1.8rem; font-weight:700; color:#232323; margin-bottom:12px; font-family:'Montserrat', Arial, sans-serif;">
+        I'm Monika Swami
+      </div>
+      <div class="trainer-text" style="font-size:1rem; color:#444; margin-bottom:10px; line-height:1.5;">
+        Monika Swami is a former boxer and accomplished runway model with 9+ years of experience, having walked for top designers like Michael Cinco, Rocky S, Rohit Bal, and Gaurav Gupta at major fashion weeks in India and abroad.
+      </div>
+      <div class="trainer-text" style="font-size:1rem; color:#444; line-height:1.5;">
+        She now also mentors and grooms aspiring models, shaping the next generation of talent.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Trainer 6 -->
+  <div class="trainer-section" style="width:100%; max-width:1200px; display:flex; align-items:center; flex-wrap:wrap; gap:32px; padding:25px 20px; border-radius:12px; background:#fff; box-sizing:border-box;">
+    <div class="trainer-image" style="flex:1 1 350px; max-width:450px;">
+      <img src="{% static 'images/Hamid.png' %}" alt="Coach Alex" style="width:100%; border-radius:10px; object-fit:cover; height: 450px; aspect-ratio:4/3;">
+    </div>
+    <div class="trainer-content" style="flex:2 1 200px; min-width:280px;">
+      <div class="trainer-title" style="font-size:1.8rem; font-weight:700; color:#232323; margin-bottom:12px; font-family:'Montserrat', Arial, sans-serif;">
+        I'm Hamid
+      </div>
+      <div class="trainer-text" style="font-size:1rem; color:#444; margin-bottom:10px; line-height:1.5;">
+        Hamid is a leading Indian model and mentor, known for runway shows, major campaigns, and top TVCs. 
+With years in the industry.
+      </div>
+      <div class="trainer-text" style="font-size:1rem; color:#444; line-height:1.5;">
+        He now guides fresh talent while continuing to rule the fashion scene.
+      </div>
+    </div>
+  </div>
+
+  <!-- Trainer 7 -->
+  <div class="trainer-section" style="width:100%; max-width:1200px; display:flex; align-items:center; flex-wrap:wrap; gap:32px; padding:25px 20px; border-radius:12px; background:#fff; box-sizing:border-box;">
+    <div class="trainer-image" style="flex:1 1 350px; max-width:450px;">
+      <img src="{% static 'images/Vikram.png' %}" alt="Coach Alex" style="width:100%; border-radius:10px; object-fit:cover; height: 450px; aspect-ratio:4/3;">
+    </div>
+    <div class="trainer-content" style="flex:2 1 200px; min-width:280px;">
+      <div class="trainer-title" style="font-size:1.8rem; font-weight:700; color:#232323; margin-bottom:12px; font-family:'Montserrat', Arial, sans-serif;">
+        I'm Vikram
+      </div>
+      <div class="trainer-text" style="font-size:1rem; color:#444; margin-bottom:10px; line-height:1.5;">
+        Vikram is a dynamic Image Consultant and Personal Shopper, known for transforming personal style through wardrobe makeovers and curated shopping.
+      </div>
+      <div class="trainer-text" style="font-size:1rem; color:#444; line-height:1.5;">
+       He also conducts grooming and self-presentation workshops for students across schools and universities.
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+<!-- ─────────────── VIDEO PRESENTATION ─────────────── -->
+<section class="video-section">
+  <h2 class="fw-bold mb-4" style="font-family:'Montserrat',sans-serif; color: #000000;">
+    Course Video Presentation
+  </h2>
+
+  <div class="thumb-wrapper">
+    <img src="{% static 'images/coursevideopresentation.jpeg' %}" alt="Course video thumbnail">
+    <button class="btn-play" data-bs-toggle="modal" data-bs-target="#videoModal" aria-label="Play">
+      <svg viewBox="0 0 14 16"><path d="M0 0L14 8L0 16V0Z"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- ─────────────── MODAL WITH YOUTUBE IFRAME ─────────────── -->
+<div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-transparent border-0">
+      <button type="button" class="btn-close btn-close-white ms-auto p-4"
+              data-bs-dismiss="modal" aria-label="Close"></button>
+
+      <!-- Responsive 16×9 video -->
+      <div class="ratio ratio-16x9">
+        <iframe id="videoIframe"
+                src=""
+                title="Course video"
+                allow="autoplay; encrypted-media"
+                allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %} 
+<!-- NEW TESTIMONIALS SECTION -->
+<section class="testimonials-section">
+  <h2 class="testimonials-title">
+    Check out our attendees testimonials from<br>
+    previous editions of the Modeling Training
+  </h2>
+  
+  <div class="testimonials-slider">
+    <!-- Testimonial 1 -->
+    <div class="testimonial-slide">
+      <div class="testimonial-content">
+        <div class="testimonial-avatar">
+          <img src="{% static 'images/JOAO.png' %}" alt="Emma Rodriguez">
+        </div>
+        <div class="testimonial-text-content">
+          <p class="testimonial-text">
+            Amazing modeling course! I learned so much about posing, runway walking, and building confidence in front of the camera. The instructors were incredibly supportive and professional.
+          </p>
+          <div class="testimonial-author">Emma Rodriguez - Aspiring Model</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonial 2 -->
+    <div class="testimonial-slide">
+      <div class="testimonial-content">
+        <div class="testimonial-avatar">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="James Mitchell">
+        </div>
+        <div class="testimonial-text-content">
+          <p class="testimonial-text">
+            Nextttone Modeling Academy is the best investment I made for my modeling career. The portfolio building session and industry insights were game-changers for me.
+          </p>
+          <div class="testimonial-author">James Mitchell - Fashion Model</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonial 3 -->
+    <div class="testimonial-slide">
+      <div class="testimonial-content">
+        <div class="testimonial-avatar">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face" alt="Sofia Chen">
+        </div>
+        <div class="testimonial-text-content">
+          <p class="testimonial-text">
+            The training was comprehensive and practical. I learned everything from makeup techniques to runway walking. Within 3 months of completing the course, I signed with an agency!
+          </p>
+          <div class="testimonial-author">Sofia Chen - Professional Model</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonial 4 -->
+    <div class="testimonial-slide">
+      <div class="testimonial-content">
+        <div class="testimonial-avatar">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" alt="Marcus Thompson">
+        </div>
+        <div class="testimonial-text-content">
+          <p class="testimonial-text">
+            Excellent program with experienced trainers. The health and fitness guidance along with industry networking opportunities made this course exceptional. Highly recommend!
+          </p>
+          <div class="testimonial-author">Marcus Thompson - Commercial Model</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonial 5 -->
+    <div class="testimonial-slide">
+      <div class="testimonial-content">
+        <div class="testimonial-avatar">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face" alt="Isabella Martinez">
+        </div>
+        <div class="testimonial-text-content">
+          <p class="testimonial-text">
+            The course exceeded my expectations. From camera presence to contract negotiations, they covered everything. The supportive environment helped me overcome my initial shyness.
+          </p>
+          <div class="testimonial-author">Isabella Martinez - Runway Model</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonial 6 -->
+    <div class="testimonial-slide">
+      <div class="testimonial-content">
+        <div class="testimonial-avatar">
+          <img src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=150&h=150&fit=crop&crop=face" alt="Alex Johnson">
+        </div>
+        <div class="testimonial-text-content">
+          <p class="testimonial-text">
+            Great value for money! The trainers are industry professionals who share real-world experience. The portfolio I built during the course landed me my first modeling contract.
+          </p>
+          <div class="testimonial-author">Alex Johnson - Editorial Model</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> {% endcomment %}
+
+
+
+
+<!-- EVENT ANNOUNCEMENT SECTION -->
+<section class="event-section">
+  <div class="event-container">
+    <div class="event-content">
+     
+      <h3 class="event-location">Nextttone Talent Academy</h3>
+      <p class="event-description">
+        Our mission is to help aspiring models launch their careers. The team is excited to invite you to the next Modeling Training Course session which undoubtedly will provide you with the necessary skills to excel in the fashion industry. Fill out the form to register and we'll contact you in less than 24h
+      </p>
+        <a href="{% url 'course_registration'%}">
+      <button class="event-register-btn">REGISTER</button>
+        </a>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+  <!-- jQuery and Slick Slider JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+
+  <script>
+    $(document).ready(function () {
+      // Original slider
+      $('.slider').slick({
+        arrows: true,
+        dots: false,
+        infinite: true,
+        speed: 450,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        adaptiveHeight: true,
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Previous"></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Next"></button>',
+      });
+
+      // NEW: Testimonials slider
+      $('.testimonials-slider').slick({
+        arrows: true,
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 4000,
+        pauseOnHover: true,
+        adaptiveHeight: false,
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Previous testimonial"></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Next testimonial"></button>',
+      });
+    });
+
+    /* ───── Play / Stop logic ───── */
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('videoModal');
+  const iframe = document.getElementById('videoIframe');
+  const YT_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ?si=zCfZoF39ZJ208SId" ;
+
+  // When the modal opens, inject the YouTube URL (starts autoplay)
+  modal.addEventListener('shown.bs.modal', () => {
+    iframe.src = YT_URL;
+  });
+
+  // When the modal closes, remove the URL (stops playback)
+  modal.addEventListener('hide.bs.modal', () => {
+    iframe.src = '';
+  });
+});
+
+  </script>
+{% endblock %}
